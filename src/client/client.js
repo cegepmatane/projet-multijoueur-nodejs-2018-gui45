@@ -5,7 +5,7 @@ var htmlJeu;
 function initialiser()
 {
   socket = new WebSocket('ws://localhost:8888','echo-protocol');
-  socket.addEventListener('message', evenementMessage)
+  socket.addEventListener('message', evenementMessage);
   htmlAcceuil = document.getElementById("accueil").innerHTML;
   htmlJeu = document.getElementById("jeu").innerHTML;
 
@@ -21,7 +21,9 @@ function commencer()
 }
 function evenementMessage(message)
 {
-  console(message);
+  console.log("allo");
+  data = JSON.parse(message);
+  console(data['action']);
 }
 initialiser();
 window.configuration = {

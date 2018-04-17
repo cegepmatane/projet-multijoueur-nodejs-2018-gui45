@@ -28,6 +28,18 @@ serveurJeu.on('request', function(requete){
     switch(data['action']){
       case "COMMENCER":
         console.log(connection.id);
+        console.log(listeJoueur.length);
+        console.log(listeJoueur.size);
+        if(listeJoueur.length >= 2){
+          console.log("here");
+          message = {};
+          message['action'] = "COMMENCER";
+          envoie = JSON.stringify(message);
+          for(id in listeJoueur)
+            {
+              listeJoueur[id].sendUTF(envoie);
+            }
+        }
       break;
     }
   });
