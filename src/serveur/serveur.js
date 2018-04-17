@@ -8,7 +8,7 @@ var repondre = function(requete, reponse)
   reponse.writeHead(200);
   reponse.end('requte recu');
 }
-var listeJoueur = [];
+var listeJoueur = {};
 var nombreJoueur = 0;
 var http = require('http');
 var serveur = http.createServer(repondre);
@@ -22,23 +22,35 @@ serveurJeu.on('request', function(requete){
   var connection = requete.accept('echo-protocol', requete.origine);
   connection.id = nombreJoueur;
   listeJoueur[nombreJoueur++] = connection;
-
+  connection.on("close", function(){
+    delete listeJoueur[connection.id];
+    for(id in listeJoueur)
+      {
+        message = {};
+        message['action'] = "PARTI";
+        message['idJoueur'] = connection.id;
+        envoie = JSON.stringify(message);
+        listeJoueur[id].sendUTF(envoie);
+      }
+    console.log(Object.keys(listeJoueur).length);
+});
   connection.on('message', function(text){
     data = JSON.parse(text.utf8Data);
     console.log(data['action']);
     switch(data['action']){
       case "COMMENCER":
 
-        if(listeJoueur.length >= 2){
+        if(Object.keys(listeJoueur).length >= 2){
           //console.log("here");
 
           //console.log(envoie);
           if(!commencer){
             for(id in listeJoueur)
-              { message = {};
+              {
+                message = {};
                 message['action'] = "COMMENCER";
                 message['idJoueur'] = id;
-                message['nombreJoueur'] = nombreJoueur;
+                message['nombreJoueurs'] = nombreJoueur;
                 envoie = JSON.stringify(message);
                 listeJoueur[id].sendUTF(envoie);
               }
@@ -46,7 +58,7 @@ serveurJeu.on('request', function(requete){
             }else {
               message['action'] = "COMMENCER";
               message['idJoueur'] = connection.id;
-              message['nombreJoueur'] = nombreJoueur;
+              message['nombreJoueurs'] = Object.keys(listeJoueur).length;
               envoie = JSON.stringify(message);
               connection.sendUTF(envoie);
             }
