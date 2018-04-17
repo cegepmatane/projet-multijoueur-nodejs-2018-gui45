@@ -1,7 +1,7 @@
 var socket;
 var htmlAcceuil;
 var htmlJeu;
-
+var listeJoueur = {};
 function initialiser()
 {
   socket = new WebSocket('ws://localhost:8888','echo-protocol');
@@ -21,9 +21,14 @@ function commencer()
 }
 function evenementMessage(message)
 {
-  console.log("allo");
-  data = JSON.parse(message);
-  console(data['action']);
+  //console.log(message);
+  data = JSON.parse(message.data);
+  console.log(data['action']);
+  switch (data['action']) {
+    case "COMMENCER":
+      document.body.innerHTML = htmlJeu;
+    break;
+  }
 }
 initialiser();
 window.configuration = {

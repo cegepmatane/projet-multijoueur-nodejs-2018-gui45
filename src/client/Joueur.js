@@ -1,4 +1,4 @@
-function Joueur(nom, couleur){
+function Joueur(nom, couleur, position){
   function initialiser()
   {
 
