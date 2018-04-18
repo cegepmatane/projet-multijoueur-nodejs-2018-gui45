@@ -3,10 +3,19 @@ function Client()
 {
   var socket;
   var nom;
+  var Etat = {
+		enAtente : "EN ATTENTE",
+		enDeplacementDroit : "ETAT EN DEPLACEMENT DROIT",
+		enDeplacementGauche : "ETAT EN DEPLACEMENT GAUCHE",
+		enDeplacementHAUT : "ETAT EN DEPLACEMENT HAUT",
+		enDeplacementBAS : "ETAT EN DEPLACEMENT BAS"
+	}
+  var etatCourrant;
   function initialiser()
   {
     socket = new WebSocket('ws://localhost:8888','echo-protocol');
     socket.addEventListener('message', evenementMessage);
+    etatCourrant = Etat.enAtente;
   }
   this.commencer = function()
   {
@@ -16,19 +25,23 @@ function Client()
     socket.send(envoie);
     return false;
   }
-  this.changerStatus = function(status)
+  this.changerEtat = function(nouvelEtat)
   {
-    data = {};
-    data['action'] = status;
-    envoie = JSON.stringify(data);
-    socket.send(envoie);
+    if(etatCourrant != nouvelEtat){
+      etatCourrant = nouvelEtat;
+      data = {};
+      data.action = "CHANGER_ETAT";
+      data.valeur = nouvelEtat;
+      envoie = JSON.stringify(data);
+      socket.send(envoie);
+    }
   }
   function evenementMessage(message)
   {
     //console.log(message);
     data = JSON.parse(message.data);
     console.log(data['action']);
-    console.log(data['nombreJoueurs']);
+    //console.log(data['nombreJoueurs']);
     switch (data['action']) {
       case "COMMENCER":
         nom = message['idJoueur'];
@@ -38,6 +51,9 @@ function Client()
       case "PARTI":
         evenement = new CustomEvent("PARTI", {'detail':data});
         document.body.dispatchEvent(evenement);
+      break;
+      case "DEPLACEMENT":
+        console.log(data);
       break;
     }
   }
