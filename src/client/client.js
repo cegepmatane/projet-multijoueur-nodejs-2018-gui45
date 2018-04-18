@@ -41,7 +41,7 @@ function Client()
     //console.log(message);
     data = JSON.parse(message.data);
     console.log(data['action']);
-    //console.log(data);
+    console.log(data);
     switch (data['action']) {
       case "COMMENCER":
         nom = message['idJoueur'];
@@ -53,8 +53,14 @@ function Client()
         document.body.dispatchEvent(evenement);
         break;
       case "DEPLACEMENT":
-      evenement = new CustomEvent("DEPLACEMENT", {'detail':data});
-      document.body.dispatchEvent(evenement);
+        evenement = new CustomEvent("DEPLACEMENT", {'detail':data});
+        document.body.dispatchEvent(evenement);
+        break;
+      case "NOUVEAU_JOUEUR":
+        if(nom != data['idJoueur']){
+          evenement = new CustomEvent("NOUVEAU_JOUEUR", {'detail':data});
+          document.body.dispatchEvent(evenement);
+        }
         break;
     }
   }

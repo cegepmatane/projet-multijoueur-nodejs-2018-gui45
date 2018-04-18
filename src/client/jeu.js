@@ -32,6 +32,16 @@ function ajouterLesEvent()
 
   document.body.addEventListener("PARTI",joueurParti);
   document.body.addEventListener("DEPLACEMENT",gererDeplacements);
+  document.body.addEventListener("NOUVEAU_JOUEUR",gereNouveauJoueurs);
+}
+function gereNouveauJoueurs(evenement)
+{
+  message = evenement.detail;
+  positions = {};
+  positions["x"] = i*10;
+  positions["y"] = i*10;
+  listeJoueur[message['idJoueur']] = new Joueur(i, "red", positions, scene);
+  nombreJoueur++;
 }
 function gererDeplacements(evenement)
 {
@@ -123,15 +133,12 @@ function gererToucheEnfoncee(evenement)
           case window.configuration.toucheGauche:
             client.changerEtat(Etat.enDeplacementGauche);
             break;
-
           case window.configuration.toucheDroite:
             client.changerEtat(Etat.enDeplacementDroit);
             break;
-
           case window.configuration.toucheAvancer:
             client.changerEtat(Etat.enDeplacementHAUT);
             break;
-
           case window.configuration.toucheBas:
             client.changerEtat(Etat.enDeplacementBAS);
             break;

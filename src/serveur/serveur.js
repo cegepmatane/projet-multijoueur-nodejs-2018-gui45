@@ -87,6 +87,14 @@ serveurJeu.on('request', function(requete){
           message['partie'] = listePartie;
           envoie = JSON.stringify(message);
           connection.sendUTF(envoie);
+          for(id in listeJoueur)
+          {
+            message = {};
+            message['action'] = "NOUVEAU_JOUEUR";
+            message['idJoueur'] = connection.id;
+            envoie = JSON.stringify(message);
+            listeJoueur[id].sendUTF(envoie);
+          }
         }
     }
   }
