@@ -30,8 +30,8 @@ function Client()
     if(etatCourrant != nouvelEtat){
       etatCourrant = nouvelEtat;
       data = {};
-      data.action = "CHANGER_ETAT";
-      data.valeur = nouvelEtat;
+      data['action'] = "CHANGER_ETAT";
+      data['valeur'] = nouvelEtat;
       envoie = JSON.stringify(data);
       socket.send(envoie);
     }
@@ -41,20 +41,21 @@ function Client()
     //console.log(message);
     data = JSON.parse(message.data);
     console.log(data['action']);
-    //console.log(data['nombreJoueurs']);
+    //console.log(data);
     switch (data['action']) {
       case "COMMENCER":
         nom = message['idJoueur'];
         evenement = new CustomEvent("DONNEE_INITIAL", {'detail':data});
         document.body.dispatchEvent(evenement);
-      break;
+        break;
       case "PARTI":
         evenement = new CustomEvent("PARTI", {'detail':data});
         document.body.dispatchEvent(evenement);
-      break;
+        break;
       case "DEPLACEMENT":
-        console.log(data);
-      break;
+      evenement = new CustomEvent("DEPLACEMENT", {'detail':data});
+      document.body.dispatchEvent(evenement);
+        break;
     }
   }
   initialiser();

@@ -31,8 +31,54 @@ function ajouterLesEvent()
 
 
   document.body.addEventListener("PARTI",joueurParti);
+  document.body.addEventListener("DEPLACEMENT",gererDeplacements);
 }
-function joueurParti(evenement)
+function gererDeplacements(evenement)
+{
+  message = evenement.detail;
+  joueur = listeJoueur[message['idJoueur']];
+  console.log(message['valeur']);
+  switch (message['valeur']) {
+    case Etat.enAtente:
+      joueur.setEtatCourrant(Etat.enAtente);
+      break;
+    case Etat.enDeplacementBAS:
+      joueur.setEtatCourrant(Etat.enDeplacementBAS);
+      break;
+    case Etat.enDeplacementHAUT:
+      joueur.setEtatCourrant(Etat.enDeplacementHAUT);
+      break;
+    case Etat.enDeplacementDroit:
+      joueur.setEtatCourrant(Etat.enDeplacementDroit);
+      break;
+    case Etat.enDeplacementGauche:
+      joueur.setEtatCourrant(Etat.enDeplacementGauche);
+      break;
+  }
+}
+function deplacerJoueurs()
+{
+  for(id in listeJoueur)
+  {
+    joueur = listeJoueur[id];
+    //console.log(joueur.getEtatCourant());
+    switch (joueur.getEtatCourant()) {
+      case Etat.enDeplacementBAS:
+        joueur.setPositionY(joueur.getPositionY()+Joueur.configuration.vitesse);
+        break;
+      case Etat.enDeplacementHAUT:
+        joueur.setPositionY(joueur.getPositionY()-Joueur.configuration.vitesse);
+        break;
+      case Etat.enDeplacementGauche:
+        joueur.setPositionX(joueur.getPositionX()-Joueur.configuration.vitesse);
+        break;
+      case Etat.enDeplacementDroit:
+        joueur.setPositionX(joueur.getPositionX()+Joueur.configuration.vitesse);
+        break;
+    }
+  }
+}
+function joueurParti(evenement)//TODO terminer cette method
 {
   message = evenement.detail;
   console.log(message);
@@ -54,6 +100,7 @@ function valeursInitiale(evenement)
 }
 function rafraichirJeu(evenement)
 {
+  deplacerJoueurs();
   scene.update(evenement);
 }
 function commencer()
@@ -66,35 +113,28 @@ function commencer()
   createjs.Ticker.addEventListener("tick", rafraichirJeu);
   client.commencer();
 }
-function Mouvement()
-{
-  joueur.setPositionX(joueur.getPositionX()-Joueur.configuration.vitesse);
-  joueur.setPositionX(joueur.getPositionX()+Joueur.configuration.vitesse);
-  joueur.setPositionY(joueur.getPositionY()-Joueur.configuration.vitesse);
-  joueur.setPositionY(joueur.getPositionY()+Joueur.configuration.vitesse);
-}
 function gererToucheEnfoncee(evenement)
   {
-    console.log("toucher");
-    console.log(listeJoueur[2].getPositionY());
+    //console.log("toucher");
+    //console.log(listeJoueur[2].getPositionY());
     joueur = listeJoueur[id];
       switch(evenement.keyCode)
       {
           case window.configuration.toucheGauche:
             client.changerEtat(Etat.enDeplacementGauche);
-          break;
+            break;
 
           case window.configuration.toucheDroite:
             client.changerEtat(Etat.enDeplacementDroit);
-          break;
+            break;
 
           case window.configuration.toucheAvancer:
             client.changerEtat(Etat.enDeplacementHAUT);
-          break;
+            break;
 
           case window.configuration.toucheBas:
             client.changerEtat(Etat.enDeplacementBAS);
-          break;
+            break;
       }
   }
 function gererToucheRelachee(evenement)

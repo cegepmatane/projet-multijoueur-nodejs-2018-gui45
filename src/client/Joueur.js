@@ -1,9 +1,18 @@
 function Joueur(nom, couleur, position, scene){
   var forme;
+  var etatCourrant;
+  var Etat = {
+    enAtente : "EN ATTENTE",
+    enDeplacementDroit : "ETAT EN DEPLACEMENT DROIT",
+    enDeplacementGauche : "ETAT EN DEPLACEMENT GAUCHE",
+    enDeplacementHAUT : "ETAT EN DEPLACEMENT HAUT",
+    enDeplacementBAS : "ETAT EN DEPLACEMENT BAS"
+  }
   function initialiser()
   {
     dessiner(couleur);
     console.log(nom + "cree")
+    etatCourrant = Etat.enAtente;
   }
   function dessiner(couleur)
   {
@@ -28,6 +37,14 @@ function Joueur(nom, couleur, position, scene){
   this.getPositionY = function()
   {
     return forme.y;
+  }
+  this.getEtatCourant = function()
+  {
+    return etatCourrant;
+  }
+  this.setEtatCourrant = function(etat)
+  {
+    etatCourrant = etat;
   }
   initialiser();
 }
