@@ -14,12 +14,12 @@ function Joueur(nom, couleur, position, scene){
   this.setPositionX = function(x)
   {
     forme.x = x;
-    console.log(x + " " + forme.x);
+    //console.log(x + " " + forme.x);
   }
   this.setPositionY = function(y)
   {
     forme.y = y;
-    console.log(y + " " + forme.y);
+    //console.log(y + " " + forme.y);
   }
   this.getPositionX = function()
   {

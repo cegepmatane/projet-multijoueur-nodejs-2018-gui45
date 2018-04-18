@@ -59,24 +59,24 @@ function commencer()
 function gererToucheEnfoncee(evenement)
   {
     console.log("toucher");
-    console.log(listeJoueur[2].getPositionY);
+    console.log(listeJoueur[2].getPositionY());
     joueur = listeJoueur[id];
       switch(evenement.keyCode)
       {
           case window.configuration.toucheGauche:
-              joueur.setPositionX = joueur.getPositionX-Joueur.configuration.vitesse;
+              joueur.setPositionX(joueur.getPositionX()-Joueur.configuration.vitesse);
           break;
 
           case window.configuration.toucheDroite:
-              listeJoueur[id].setPositionX = listeJoueur[id].getPositionX+Joueur.configuration.vitesse;
+              joueur.setPositionX(joueur.getPositionX()+Joueur.configuration.vitesse);
           break;
 
           case window.configuration.toucheAvancer:
-              listeJoueur[id].setPositionY = listeJoueur[id].getPositionY+Joueur.configuration.vitesse;
+              joueur.setPositionY(joueur.getPositionY()-Joueur.configuration.vitesse);
           break;
 
           case window.configuration.toucheBas:
-              listeJoueur[id].setPositionX = listeJoueur[id].getPositionY-Joueur.configuration.vitesse;
+              joueur.setPositionY(joueur.getPositionY()+Joueur.configuration.vitesse);
           break;
       }
   }
