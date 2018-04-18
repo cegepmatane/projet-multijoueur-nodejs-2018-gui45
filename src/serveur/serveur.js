@@ -14,6 +14,7 @@ var http = require('http');
 var serveur = http.createServer(repondre);
 var webSocket = require('WebSocket');
 var commencer = false;
+
 serveurJeu = new webSocket.server({httpServer: serveur});
 
 serveur.listen(8888);

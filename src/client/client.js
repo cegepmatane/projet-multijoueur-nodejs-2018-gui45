@@ -1,63 +1,37 @@
-var socket;
-var htmlAcceuil;
-var htmlJeu;
-var listeJoueur = {};
-var scene;
-var canvas;
-var nom;
-function initialiser()
-{
-  socket = new WebSocket('ws://localhost:8888','echo-protocol');
-  socket.addEventListener('message', evenementMessage);
-  htmlAcceuil = document.getElementById("accueil").innerHTML;
-  htmlJeu = document.getElementById("jeu").innerHTML;
 
-  document.body.innerHTML = htmlAcceuil;
-}
-function commencer()
+function Client()
 {
-  data = {};
-  data['action'] = "COMMENCER";
-  envoie = JSON.stringify(data);
-  socket.send(envoie);
-  return false;
-}
-function rafraichirJeu(evenement)
-{
-  scene.update(evenement);
-}
-function commencerJeu(message)
-{
-  document.body.innerHTML = htmlJeu;
-  canvas = document.getElementById('canvas');
-  console.log(canvas);
-  scene = new createjs.Stage(canvas);
-  createjs.Ticker.setFPS(60);
-  createjs.Ticker.addEventListener("tick", rafraichirJeu);
-  nom = message['idJoueur'];
-  console.log(message['nombreJoueurs']);
-  for(i = 1; i <= message['nombreJoueurs']; i++)
+  var socket;
+  var nom;
+  function initialiser()
   {
-
-    positions = {};
-    positions["x"] = i*10;
-    positions["y"] = i*10;
-    joueur = new Joueur(i, "red", positions, scene);
-    listeJoueur[i] = joueur;
+    socket = new WebSocket('ws://localhost:8888','echo-protocol');
+    socket.addEventListener('message', evenementMessage);
   }
-}
-function evenementMessage(message)
-{
-  //console.log(message);
-  data = JSON.parse(message.data);
-  console.log(data['action']);
-  switch (data['action']) {
-    case "COMMENCER":
-      commencerJeu(data);
-    break;
+  this.commencer = function()
+  {
+    data = {};
+    data['action'] = "COMMENCER";
+    envoie = JSON.stringify(data);
+    socket.send(envoie);
+    return false;
   }
-}
-initialiser();
-window.configuration = {
-
+  function evenementMessage(message)
+  {
+    //console.log(message);
+    data = JSON.parse(message.data);
+    console.log(data['action']);
+    switch (data['action']) {
+      case "COMMENCER":
+        nom = message['idJoueur'];
+        evenement = new CustomEvent("DONNEE_INITIAL", {'detail':message});
+        document.body.dispatchEvent(evenement);
+      break;
+      case "PARTI":
+        evenement = new CustomEvent("PARTI", {'detail':message});
+        document.body.dispatchEvent(evenement);
+      break;
+    }
+  }
+  initialiser();
 }
