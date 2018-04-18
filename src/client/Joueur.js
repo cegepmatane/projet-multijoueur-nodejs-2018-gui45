@@ -11,6 +11,24 @@ function Joueur(nom, couleur, position, scene){
 		forme.graphics.beginFill(couleur).drawRect(positions['x'], positions['y'], 10, 10).endFill();
 		scene.addChild(forme);
   }
+  this.setPositionX = function(x)
+  {
+    forme.x = x;
+    console.log(x + " " + forme.x);
+  }
+  this.setPositionY = function(y)
+  {
+    forme.y = y;
+    console.log(y + " " + forme.y);
+  }
+  this.getPositionX = function()
+  {
+    return forme.x;
+  }
+  this.getPositionY = function()
+  {
+    return forme.y;
+  }
   initialiser();
 }
 Joueur.configuration = {

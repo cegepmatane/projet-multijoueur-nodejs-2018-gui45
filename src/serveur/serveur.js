@@ -14,7 +14,7 @@ var http = require('http');
 var serveur = http.createServer(repondre);
 var webSocket = require('WebSocket');
 var commencer = false;
-
+var listePartie = [];
 serveurJeu = new webSocket.server({httpServer: serveur});
 
 serveur.listen(8888);
@@ -24,12 +24,12 @@ serveurJeu.on('request', function(requete){
   connection.id = nombreJoueur;
   listeJoueur[nombreJoueur++] = connection;
   connection.on("close", function(){
-    delete listeJoueur[connection.id];
+    listePartie.push(connection.id);
     for(id in listeJoueur)
       {
         message = {};
         message['action'] = "PARTI";
-        message['idJoueur'] = connection.id;
+        message['idJoueurs'] = listePartie;
         envoie = JSON.stringify(message);
         listeJoueur[id].sendUTF(envoie);
       }
@@ -52,6 +52,7 @@ serveurJeu.on('request', function(requete){
                 message['action'] = "COMMENCER";
                 message['idJoueur'] = id;
                 message['nombreJoueurs'] = nombreJoueur;
+                message['partie'] = listePartie;
                 envoie = JSON.stringify(message);
                 listeJoueur[id].sendUTF(envoie);
               }
@@ -59,7 +60,8 @@ serveurJeu.on('request', function(requete){
             }else {
               message['action'] = "COMMENCER";
               message['idJoueur'] = connection.id;
-              message['nombreJoueurs'] = Object.keys(listeJoueur).length;
+              message['nombreJoueurs'] = nombreJoueur;
+              message['partie'] = listePartie;
               envoie = JSON.stringify(message);
               connection.sendUTF(envoie);
             }
