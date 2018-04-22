@@ -115,6 +115,7 @@ function valeursInitiale(evenement)
 function rafraichirJeu(evenement)
 {
   deplacerJoueurs();
+  //console.log(evenement.delta);
   scene.update(evenement);
 }
 function commencer()

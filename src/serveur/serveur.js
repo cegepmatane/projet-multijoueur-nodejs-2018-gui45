@@ -8,7 +8,28 @@ var repondre = function(requete, reponse)
   reponse.writeHead(200);
   reponse.end('requte recu');
 }
-
+function gererDeplacements(evenement)
+{
+  for(id in listeJoueur)
+  {
+    joueur = listeJoueur[id];
+    //console.log(joueur.etat);
+    switch (joueur.etat) {
+      case Etat.enDeplacementBAS:
+        joueur.position.y = joueur.position.y+5;
+        break;
+      case Etat.enDeplacementHAUT:
+        joueur.position.y = joueur.position.y-5;
+        break;
+      case Etat.enDeplacementGauche:
+        joueur.position.x = joueur.position.x-5;
+        break;
+      case Etat.enDeplacementDroit:
+        joueur.position.x = joueur.position.x+5;
+        break;
+    }
+  }
+}
 var listeJoueur = {};
 var nombreJoueur = 0;
 var http = require('http');
@@ -16,6 +37,14 @@ var serveur = http.createServer(repondre);
 var webSocket = require('WebSocket');
 var patieCommencer = false;
 var listePartie = [];
+var Etat = {
+  enAtente : "EN ATTENTE",
+  enDeplacementDroit : "ETAT EN DEPLACEMENT DROIT",
+  enDeplacementGauche : "ETAT EN DEPLACEMENT GAUCHE",
+  enDeplacementHAUT : "ETAT EN DEPLACEMENT HAUT",
+  enDeplacementBAS : "ETAT EN DEPLACEMENT BAS"
+}
+var intervalDeplacementJoueur = setInterval(gererDeplacements, 1000/60);
 serveurJeu = new webSocket.server({httpServer: serveur});
 serveur.listen(8888);
 
@@ -55,6 +84,7 @@ serveurJeu.on('request', function(requete){
     message['idJoueur'] = connection.id;
     message['position'] = connection.position;
     message['valeur'] = data['valeur'];
+    connection.etat = data['valeur'];
     for(id in listeJoueur)
     {
       envoie = JSON.stringify(message);
@@ -75,6 +105,7 @@ serveurJeu.on('request', function(requete){
           position['x'] = connection.id * 10;
           position['y'] = connection.id * 10;
           connection.position = position;
+          connection.etat = Etat.enAtente;
 
           message = {};//message = message a envoyer
           message['action'] = "COMMENCER";
@@ -92,6 +123,7 @@ serveurJeu.on('request', function(requete){
         position['x'] = connection.id * 10;
         position['y'] = connection.id * 10;
         connection.position = position;
+        connection.etat = Etat.enAtente;
 
         message = {};//message = message a envoyer
         message['action'] = "COMMENCER";
