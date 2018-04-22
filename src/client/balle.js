@@ -4,7 +4,6 @@ function Balle (nomPropriertaire, destination, depart){
 	var intervalBouger;
 	function initialiser()
 	{
-		animationJoueur =  joueur.getAnimation();
 		forme = new createjs.Shape();
 		forme.graphics.beginFill("black").drawCircle(0, 0, 10);
 		forme.x = depart['x'];

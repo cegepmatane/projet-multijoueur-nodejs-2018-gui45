@@ -45,6 +45,9 @@ var Etat = {
   enDeplacementBAS : "ETAT EN DEPLACEMENT BAS"
 }
 var intervalDeplacementJoueur = setInterval(gererDeplacements, 1000/60);
+let Balles = require("./balle");
+let Balle = Balles.Balle;
+var balle = new Balle(1,1,1);
 serveurJeu = new webSocket.server({httpServer: serveur});
 serveur.listen(8888);
 
