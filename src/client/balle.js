@@ -14,13 +14,13 @@ function Balle (nomPropriertaire, destination, depart){
 	}
 	function bouger()
 	{
-		var distanceX = (destination['x']) - forme.x;
-		var distanceY = (destination['y']) - forme.y;
+		var distanceX = (destination['x'] * 1000) - forme.x;
+		var distanceY = (destination['y'] * 1000) - forme.y;
 		var distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 		//console.log(distanceX);
 		forme.x = forme.x + Balle.configuration.vitesse * distanceX/distance;
 		forme.y = forme.y + Balle.configuration.vitesse * distanceY/distance;
-    if(destination['x'] == forme.x && destination['y'] == forme.y)
+    if(destination['x'] * 1000 == forme.x && destination['y'] * 1000 == forme.y)
       scene.removeChild(forme);
 	}
   this.getNomProprietaire = function()

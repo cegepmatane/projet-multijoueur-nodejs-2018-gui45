@@ -11,6 +11,7 @@ function Client()
 		enDeplacementBAS : "ETAT EN DEPLACEMENT BAS"
 	}
   var etatCourrant;
+  var partieCommencer = false;
   function initialiser()
   {
     socket = new WebSocket('ws://localhost:8888','echo-protocol');
@@ -36,6 +37,17 @@ function Client()
       socket.send(envoie);
     }
   }
+  this.tirer = function(position)
+  {
+    if(partieCommencer){
+      data = {};
+      data['action'] = "TIRER";
+      data['destination'] = position;
+      console.log(data);
+      envoie = JSON.stringify(data);
+      socket.send(envoie);
+    }
+  }
   function evenementMessage(message)
   {
     //console.log(message);
@@ -47,6 +59,7 @@ function Client()
         nom = message['idJoueur'];
         evenement = new CustomEvent("DONNEE_INITIAL", {'detail':data});
         document.body.dispatchEvent(evenement);
+        partieCommencer = true;
         break;
       case "PARTI":
         evenement = new CustomEvent("PARTI", {'detail':data});

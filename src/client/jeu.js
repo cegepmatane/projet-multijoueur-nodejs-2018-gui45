@@ -32,10 +32,17 @@ function ajouterLesEvent()
   document.onkeydown = gererToucheEnfoncee;
   document.onkeyup = gererToucheRelachee;
 
-
+  document.body.addEventListener("click", tirer)
   document.body.addEventListener("PARTI",joueurParti);
   document.body.addEventListener("DEPLACEMENT",gererDeplacements);
   document.body.addEventListener("NOUVEAU_JOUEUR",gereNouveauJoueurs);
+}
+function tirer(evenement)
+{
+  position = {};
+  position['x'] = evenement.clientX;
+  position['y'] = evenement.clientY;
+  client.tirer(position);
 }
 function gereNouveauJoueurs(evenement)
 {

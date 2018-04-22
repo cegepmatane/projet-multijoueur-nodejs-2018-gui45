@@ -8,7 +8,15 @@ var repondre = function(requete, reponse)
   reponse.writeHead(200);
   reponse.end('requte recu');
 }
-function gererDeplacements(evenement)
+function cycle()
+{
+  gererDeplacements();
+  collisionBalle();
+}
+function collisionBalle() {
+
+}
+function gererDeplacements()
 {
   for(id in listeJoueur)
   {
@@ -37,6 +45,7 @@ var serveur = http.createServer(repondre);
 var webSocket = require('WebSocket');
 var patieCommencer = false;
 var listePartie = [];
+var listeBalle = [];
 var Etat = {
   enAtente : "EN ATTENTE",
   enDeplacementDroit : "ETAT EN DEPLACEMENT DROIT",
@@ -44,10 +53,10 @@ var Etat = {
   enDeplacementHAUT : "ETAT EN DEPLACEMENT HAUT",
   enDeplacementBAS : "ETAT EN DEPLACEMENT BAS"
 }
-var intervalDeplacementJoueur = setInterval(gererDeplacements, 1000/60);
+var intervalCycle = setInterval(cycle, 1000/60);
 let Balles = require("./balle");
 let Balle = Balles.Balle;
-var balle = new Balle(1,1,1);
+
 serveurJeu = new webSocket.server({httpServer: serveur});
 serveur.listen(8888);
 
@@ -74,12 +83,20 @@ serveurJeu.on('request', function(requete){
     switch(data['action']){
       case "COMMENCER":
         commencer(connection);
-      break;
+        break;
       case "CHANGER_ETAT":
-      changerEtat(connection, data);
-      break;
+        changerEtat(connection, data);
+        break;
+      case "TIRER":
+        tirer(connection, data);
+        break;
     }
   });
+  function tirer()
+  {
+    if(connection.position != undefined)
+      listeBalle.push(new Balle(connection.id, data['destination'], connection.position));
+  }
   function changerEtat(connection, data)
   {
     message = {};
