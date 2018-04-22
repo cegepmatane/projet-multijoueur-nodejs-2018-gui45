@@ -8,6 +8,7 @@ var scene;
 var client;
 var id;
 var joueurEnMouvement = {};
+var partieCommencer;
 var Etat = {
   enAtente : "EN ATTENTE",
   enDeplacementDroit : "ETAT EN DEPLACEMENT DROIT",
@@ -18,11 +19,13 @@ var Etat = {
 
 function initialiser()
 {
+  partieCommencer = false;
   htmlAcceuil = document.getElementById("accueil").innerHTML;
   htmlJeu = document.getElementById("jeu").innerHTML;
   client = new Client();
   document.body.innerHTML = htmlAcceuil;
   document.body.addEventListener("DONNEE_INITIAL",valeursInitiale);
+  ajouterLesEvent();
 }
 function ajouterLesEvent()
 {
@@ -37,16 +40,18 @@ function ajouterLesEvent()
 function gereNouveauJoueurs(evenement)
 {
   message = evenement.detail;
-  positions = {};
-  positions["x"] = i*10;
-  positions["y"] = i*10;
-  listeJoueur[message['idJoueur']] = new Joueur(i, "red", positions, scene);
+  position = message['position']
+  id = message['idJoueur'];
+  listeJoueur[id] = new Joueur(id, "red", position, scene);
   nombreJoueur++;
 }
 function gererDeplacements(evenement)
 {
   message = evenement.detail;
   joueur = listeJoueur[message['idJoueur']];
+  position = message['position'];
+  joueur.setPositionY(position['y']);
+  joueur.setPositionX(position['x']);
   console.log(message['valeur']);
   switch (message['valeur']) {
     case Etat.enAtente:
@@ -95,7 +100,6 @@ function joueurParti(evenement)//TODO terminer cette method
 }
 function valeursInitiale(evenement)
 {
-  ajouterLesEvent();
   message = evenement.detail;
   listePartie = message['partie'];
   id = message['idJoueur'];

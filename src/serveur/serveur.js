@@ -14,12 +14,10 @@ var nombreJoueur = 0;
 var http = require('http');
 var serveur = http.createServer(repondre);
 var webSocket = require('WebSocket');
-var commencer = false;
+var patieCommencer = false;
 var listePartie = [];
 serveurJeu = new webSocket.server({httpServer: serveur});
 serveur.listen(8888);
-
-
 
 serveurJeu.on('request', function(requete){
   var connection = requete.accept('echo-protocol', requete.origine);
@@ -55,6 +53,7 @@ serveurJeu.on('request', function(requete){
     message = {};
     message['action'] = "DEPLACEMENT";
     message['idJoueur'] = connection.id;
+    message['position'] = connection.position;
     message['valeur'] = data['valeur'];
     for(id in listeJoueur)
     {
@@ -65,37 +64,52 @@ serveurJeu.on('request', function(requete){
   function commencer(connection)
   {
     if(Object.keys(listeJoueur).length >= 2){
-      //console.log("here");
+      //console.log(commencer);
       //console.log(envoie);
-      if(!commencer){
+      if(!patieCommencer){
+        //console.log("here");
         for(id in listeJoueur)
         {
-          message = {};
+          //console.log("here");
+          position = {};//initialise les positions
+          position['x'] = connection.id * 10;
+          position['y'] = connection.id * 10;
+          connection.position = position;
+
+          message = {};//message = message a envoyer
           message['action'] = "COMMENCER";
           message['idJoueur'] = id;
+          message['position'] = position;
           message['nombreJoueurs'] = nombreJoueur;
           message['partie'] = listePartie;
           envoie = JSON.stringify(message);
           listeJoueur[id].sendUTF(envoie);
         }
-        commencer = true;
-        }else {
-          message = {};
-          message['action'] = "COMMENCER";
-          message['idJoueur'] = connection.id;
-          message['nombreJoueurs'] = nombreJoueur;
-          message['partie'] = listePartie;
-          envoie = JSON.stringify(message);
-          connection.sendUTF(envoie);
-          for(id in listeJoueur)
-          {
-            message = {};
-            message['action'] = "NOUVEAU_JOUEUR";
-            message['idJoueur'] = connection.id;
-            envoie = JSON.stringify(message);
-            listeJoueur[id].sendUTF(envoie);
-          }
+        patieCommencer = true;
+      }else {
+        //console.log("else");
+        position = {};//initialise les positions
+        position['x'] = connection.id * 10;
+        position['y'] = connection.id * 10;
+        connection.position = position;
+
+        message = {};//message = message a envoyer
+        message['action'] = "COMMENCER";
+        message['idJoueur'] = connection.id;
+        message['position'] = position;
+        message['nombreJoueurs'] = nombreJoueur;
+        message['partie'] = listePartie;
+        envoie = JSON.stringify(message);
+        connection.sendUTF(envoie);
+
+        message['action'] = "NOUVEAU_JOUEUR";// pour les autres joueur on envoi un evenement nouveau joueur
+        envoie = JSON.stringify(message);
+        for(id in listeJoueur)
+        {
+          //console.log(message);
+          listeJoueur[id].sendUTF(envoie);
         }
+      }
     }
   }
 });
