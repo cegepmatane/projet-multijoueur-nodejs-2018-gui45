@@ -9,9 +9,9 @@ function Balle(nomPropriertaire, destination, depart)
 	//console.log(forme.x);
 	function bouger()
 	{
-		var distanceX = ((destination['x']) - forme['x']);
-		var distanceY = ((destination['y']) - forme['y']);
-		var distance = (Math.sqrt(distanceX * distanceX + distanceY * distanceY));
+		var distanceX = (destination['x']) - forme['x'];
+		var distanceY = (destination['y']) - forme['y'];
+		var distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 		//console.log(distanceX);
 		forme['x'] = forme['x'] + 2 * distanceX/distance;
 		forme['y'] = forme['y'] + 2 * distanceY/distance;

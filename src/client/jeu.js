@@ -1,8 +1,10 @@
 var canvas;
 var htmlAcceuil;
 var htmlJeu;
+var htmlMort;
 var listeJoueur = [];
 var listePartie = [];
+var listeBalle = [];
 var nombreJoueur;
 var scene;
 var client;
@@ -22,6 +24,7 @@ function initialiser()
   partieCommencer = false;
   htmlAcceuil = document.getElementById("accueil").innerHTML;
   htmlJeu = document.getElementById("jeu").innerHTML;
+  htmlMort = document.getElementById("mort").innerHTML;
   client = new Client();
   document.body.innerHTML = htmlAcceuil;
   document.body.addEventListener("DONNEE_INITIAL",valeursInitiale);
@@ -32,16 +35,30 @@ function ajouterLesEvent()
   document.onkeydown = gererToucheEnfoncee;
   document.onkeyup = gererToucheRelachee;
 
-  document.body.addEventListener("click", tirer)
+  document.body.addEventListener("click",tirer)
   document.body.addEventListener("PARTI",joueurParti);
+  document.body.addEventListener("TOUCHER",mort);
   document.body.addEventListener("DEPLACEMENT",gererDeplacements);
   document.body.addEventListener("NOUVEAU_JOUEUR",gereNouveauJoueurs);
+  document.body.addEventListener("TIRE", tireJoueurs)
+}
+function tireJoueurs(evenement)
+{
+  message = evenement.detail;
+  listeBalle.push(new Balle(message['destination'], message['source']));
+}
+function mort(evenement)
+{
+   document.body.innerHTML = htmlMort;
 }
 function tirer(evenement)
 {
   position = {};
   position['x'] = evenement.clientX;
   position['y'] = evenement.clientY;
+
+  //listeBalle.push(new Balle(position, listeJoueur[id].getPositioXY()));
+
   client.tirer(position);
 }
 function gereNouveauJoueurs(evenement)
@@ -100,18 +117,20 @@ function deplacerJoueurs()
     }
   }
 }
-function joueurParti(evenement)//TODO terminer cette method
+function joueurParti(evenement)
 {
   message = evenement.detail;
-  console.log(message);
+  //console.log(message);
+  listeJoueur[message['idJoueur']].retirer();
 }
 function valeursInitiale(evenement)
 {
   message = evenement.detail;
   listePartie = message['partie'];
   id = message['idJoueur'];
+  console.log(id);
   //console.log(message['nombreJoueurs']);
-  for(i = 0; i <= message['nombreJoueurs']-1; i++)
+  for(i = 0; i <= message['idJoueur']; i++)
   {
     positions = {};
     positions["x"] = i*10;

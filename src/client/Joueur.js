@@ -34,6 +34,13 @@ function Joueur(nom, couleur, position, scene){
   {
     return forme.x;
   }
+  this.getPositioXY = function()
+  {
+    positionXY = {};
+    positionXY['x'] = forme.x;
+    positionXY['y'] = forme.y;
+    return position;
+  }
   this.getPositionY = function()
   {
     return forme.y;
@@ -45,6 +52,10 @@ function Joueur(nom, couleur, position, scene){
   this.setEtatCourrant = function(etat)
   {
     etatCourrant = etat;
+  }
+  this.retirer = function()
+  {
+    scene.removeChild(forme);
   }
   initialiser();
 }

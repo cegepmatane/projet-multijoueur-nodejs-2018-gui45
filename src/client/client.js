@@ -53,7 +53,7 @@ function Client()
     //console.log(message);
     data = JSON.parse(message.data);
     console.log(data['action']);
-    console.log(data);
+    //console.log(data);
     switch (data['action']) {
       case "COMMENCER":
         nom = message['idJoueur'];
@@ -74,6 +74,17 @@ function Client()
           evenement = new CustomEvent("NOUVEAU_JOUEUR", {'detail':data});
           document.body.dispatchEvent(evenement);
         }
+      case "TOUCHER":
+        if(nom == data['idJoueur']){
+          evenement = new CustomEvent("TOUCHER", {'detail':data});
+          document.body.dispatchEvent(evenement);
+        }
+        break;
+      case "TIRE":
+        //if(nom != data['idJoueur']){
+          evenement = new CustomEvent("TIRE", {'detail':data});
+          document.body.dispatchEvent(evenement);
+        //}
         break;
     }
   }

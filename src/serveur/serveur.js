@@ -23,20 +23,17 @@ function collisionBalle() {
       if(joueur != undefined && joueur.position != undefined)
       {
         //console.log("joueur");
-        if(((joueur.position.y - 10 ) <  balle.getPositionY() && balle.getPositionY() < (joueur.position.y + 10)) &&
-    			((joueur.position.x - 10 ) <  balle.getPositionX() && balle.getPositionX() < (joueur.position.x + 10)))
+        if(((joueur.position.y - 2 ) <  balle.getPositionY() && balle.getPositionY() < (joueur.position.y + 2)) &&
+    			((joueur.position.x - 2 ) <  balle.getPositionX() && balle.getPositionX() < (joueur.position.x + 2)))
         {
-          if(balle.getNomProprietaire() != joueur.id)
+          console.log("toucher");
+          message = {};
+          message['action'] = "TOUCHER";
+          message['idJoueur'] = joueur.id;
+          envoie = JSON.stringify(message);
+          for(id in listeJoueur)
           {
-            console.log("toucher");
-            message = {};
-            message['action'] = "TOUCHER";
-            message['idJoueur'] = joueur.id;
-            envoie = JSON.stringify(message);
-            for(id in listeJoueur)
-            {
-                listeJoueur[id].sendUTF(envoie);
-            }
+              listeJoueur[id].sendUTF(envoie);
           }
         }
       }
@@ -49,19 +46,21 @@ function gererDeplacements()
   {
     joueur = listeJoueur[id];
     //console.log(joueur.etat);
-    switch (joueur.etat) {
-      case Etat.enDeplacementBAS:
-        joueur.position.y = joueur.position.y+5;
-        break;
-      case Etat.enDeplacementHAUT:
-        joueur.position.y = joueur.position.y-5;
-        break;
-      case Etat.enDeplacementGauche:
-        joueur.position.x = joueur.position.x-5;
-        break;
-      case Etat.enDeplacementDroit:
-        joueur.position.x = joueur.position.x+5;
-        break;
+    if(joueur.position != undefined){
+      switch (joueur.etat) {
+        case Etat.enDeplacementBAS:
+          joueur.position.y = joueur.position.y+5;
+          break;
+        case Etat.enDeplacementHAUT:
+          joueur.position.y = joueur.position.y-5;
+          break;
+        case Etat.enDeplacementGauche:
+          joueur.position.x = joueur.position.x-5;
+          break;
+        case Etat.enDeplacementDroit:
+          joueur.position.x = joueur.position.x+5;
+          break;
+      }
     }
   }
 }
@@ -97,7 +96,7 @@ serveurJeu.on('request', function(requete){
       {
         message = {};
         message['action'] = "PARTI";
-        message['idJoueurs'] = listePartie;
+        message['idJoueur'] = connection.id;
         envoie = JSON.stringify(message);
         listeJoueur[id].sendUTF(envoie);
       }
@@ -121,8 +120,20 @@ serveurJeu.on('request', function(requete){
   });
   function tirer()
   {
-    if(connection.position != undefined)// si l'èvènement est lever trop top certain joueur n'ont pas de position
+    if(connection.position != undefined){// si l'èvènement est lever trop top certain joueur n'ont pas de position
       listeBalle.push(new Balle(connection.id, data['destination'], connection.position));
+      message = {};
+      message['action'] = "TIRE";
+      message['idJoueur'] = connection.id;
+      message['source'] = connection.position;
+      message['destination'] = data['destination'];
+      for(id in listeJoueur)
+      {
+        envoie = JSON.stringify(message);
+        listeJoueur[id].sendUTF(envoie);
+      }
+    }
+
   }
   function changerEtat(connection, data)
   {
