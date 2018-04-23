@@ -77,10 +77,8 @@ function Client()
         }
         break;
       case "TOUCHER":
-        if(nom == data['idJoueur']){
-          evenement = new CustomEvent("TOUCHER", {'detail':data});
-          document.body.dispatchEvent(evenement);
-        }
+        evenement = new CustomEvent("TOUCHER", {'detail':data});
+        document.body.dispatchEvent(evenement);
         break;
       case "TIRE":
         //if(nom != data['idJoueur']){

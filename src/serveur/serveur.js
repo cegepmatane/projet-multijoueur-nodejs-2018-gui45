@@ -32,6 +32,10 @@ function collisionBalle() {
             message['action'] = "TOUCHER";
             message['idJoueur'] = joueur.id;
             envoie = JSON.stringify(message);
+            joueur.sendUTF(envoie);
+
+            message['action'] = "PARTI";
+            envoie = JSON.stringify(message);
           }
           for(id in listeJoueur)
           {
