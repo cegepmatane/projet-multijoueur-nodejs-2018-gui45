@@ -14,7 +14,34 @@ function cycle()
   collisionBalle();
 }
 function collisionBalle() {
-
+  for(idBalle in listeBalle)
+  {
+    balle = listeBalle[idBalle];
+    for(idJoueur in listeJoueur)
+    {
+      joueur = listeJoueur[idJoueur];
+      if(joueur != undefined && joueur.position != undefined)
+      {
+        //console.log("joueur");
+        if(((joueur.position.y - 10 ) <  balle.getPositionY() && balle.getPositionY() < (joueur.position.y + 10)) &&
+    			((joueur.position.x - 10 ) <  balle.getPositionX() && balle.getPositionX() < (joueur.position.x + 10)))
+        {
+          if(balle.getNomProprietaire() != joueur.id)
+          {
+            console.log("toucher");
+            message = {};
+            message['action'] = "TOUCHER";
+            message['idJoueur'] = joueur.id;
+            envoie = JSON.stringify(message);
+            for(id in listeJoueur)
+            {
+                listeJoueur[id].sendUTF(envoie);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 function gererDeplacements()
 {
@@ -53,10 +80,9 @@ var Etat = {
   enDeplacementHAUT : "ETAT EN DEPLACEMENT HAUT",
   enDeplacementBAS : "ETAT EN DEPLACEMENT BAS"
 }
-var intervalCycle = setInterval(cycle, 1000/60);
 let Balles = require("./balle");
 let Balle = Balles.Balle;
-
+var intervalCycle = setInterval(cycle, 1000/60);
 serveurJeu = new webSocket.server({httpServer: serveur});
 serveur.listen(8888);
 
@@ -83,6 +109,7 @@ serveurJeu.on('request', function(requete){
     switch(data['action']){
       case "COMMENCER":
         commencer(connection);
+
         break;
       case "CHANGER_ETAT":
         changerEtat(connection, data);
@@ -94,7 +121,7 @@ serveurJeu.on('request', function(requete){
   });
   function tirer()
   {
-    if(connection.position != undefined)
+    if(connection.position != undefined)// si l'èvènement est lever trop top certain joueur n'ont pas de position
       listeBalle.push(new Balle(connection.id, data['destination'], connection.position));
   }
   function changerEtat(connection, data)

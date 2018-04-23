@@ -9,7 +9,7 @@ function Balle (nomPropriertaire, destination, depart){
 		forme.x = depart['x'];
 		forme.y = depart['y'];
 		scene.addChild(forme);
-		intervalBouger = setInterval(bouger,10);
+		intervalBouger = setInterval(bouger,1000/60);
 		//console.log(forme.x);
 	}
 	function bouger()
