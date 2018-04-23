@@ -75,6 +75,7 @@ function Client()
           evenement = new CustomEvent("NOUVEAU_JOUEUR", {'detail':data});
           document.body.dispatchEvent(evenement);
         }
+        break;
       case "TOUCHER":
         if(nom == data['idJoueur']){
           evenement = new CustomEvent("TOUCHER", {'detail':data});

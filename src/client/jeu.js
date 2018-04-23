@@ -48,6 +48,7 @@ function tireJoueurs(evenement)
 }
 function mort(evenement)
 {
+  console.log(evenement.detail);
    vueMort.afficher();
 }
 function tirer(evenement)
