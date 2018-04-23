@@ -142,7 +142,6 @@ function valeursInitiale(evenement)
   {
     listeJoueur[listePartie[id]].retirer();
   }
-  listeJoueur[0].retirer;
 }
 function rafraichirJeu(evenement)
 {

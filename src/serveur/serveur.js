@@ -92,12 +92,12 @@ serveurJeu.on('request', function(requete){
 
   connection.on("close", function(){
     listePartie.push(connection.id);
+    message = {};
+    message['action'] = "PARTI";
+    message['idJoueur'] = connection.id;
+    envoie = JSON.stringify(message);
     for(id in listeJoueur)
       {
-        message = {};
-        message['action'] = "PARTI";
-        message['idJoueur'] = connection.id;
-        envoie = JSON.stringify(message);
         listeJoueur[id].sendUTF(envoie);
       }
     console.log(Object.keys(listeJoueur).length);
@@ -127,9 +127,9 @@ serveurJeu.on('request', function(requete){
       message['idJoueur'] = connection.id;
       message['source'] = connection.position;
       message['destination'] = data['destination'];
+      envoie = JSON.stringify(message);
       for(id in listeJoueur)
       {
-        envoie = JSON.stringify(message);
         listeJoueur[id].sendUTF(envoie);
       }
     }
@@ -143,9 +143,10 @@ serveurJeu.on('request', function(requete){
     message['position'] = connection.position;
     message['valeur'] = data['valeur'];
     connection.etat = data['valeur'];
+    envoie = JSON.stringify(message);
     for(id in listeJoueur)
     {
-      envoie = JSON.stringify(message);
+
       listeJoueur[id].sendUTF(envoie);
     }
   }
@@ -156,22 +157,22 @@ serveurJeu.on('request', function(requete){
       //console.log(envoie);
       if(!patieCommencer){
         //console.log("here");
+        position = {};//initialise les positions
+        position['x'] = connection.id * 10;
+        position['y'] = connection.id * 10;
+        connection.position = position;
+        connection.etat = Etat.enAtente;
+
+        message = {};//message = message a envoyer
+        message['action'] = "COMMENCER";
+        message['idJoueur'] = id;
+        message['position'] = position;
+        message['nombreJoueurs'] = nombreJoueur;
+        message['partie'] = listePartie;
+        envoie = JSON.stringify(message);
         for(id in listeJoueur)
         {
           //console.log("here");
-          position = {};//initialise les positions
-          position['x'] = connection.id * 10;
-          position['y'] = connection.id * 10;
-          connection.position = position;
-          connection.etat = Etat.enAtente;
-
-          message = {};//message = message a envoyer
-          message['action'] = "COMMENCER";
-          message['idJoueur'] = id;
-          message['position'] = position;
-          message['nombreJoueurs'] = nombreJoueur;
-          message['partie'] = listePartie;
-          envoie = JSON.stringify(message);
           listeJoueur[id].sendUTF(envoie);
         }
         patieCommencer = true;
