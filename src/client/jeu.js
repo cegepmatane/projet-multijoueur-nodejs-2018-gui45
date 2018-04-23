@@ -135,7 +135,8 @@ function valeursInitiale(evenement)
     positions = {};
     positions["x"] = i*10;
     positions["y"] = i*10;
-    listeJoueur[i] = new Joueur(i, "red", positions, scene);
+    if(listeJoueur[i])
+      listeJoueur[i] = new Joueur(i, "red", positions, scene);
   }
   console.log(message['joueursPatie']);
   for(id in listePartie)

@@ -17,7 +17,9 @@ function Joueur(nom, couleur, position, scene){
   function dessiner(couleur)
   {
     forme = new createjs.Shape();
-		forme.graphics.beginFill(couleur).drawRect(position['x'], position['y'], 10, 10).endFill();
+		forme.graphics.beginFill(couleur).drawRect(-5,-5, 10, 10).endFill();
+    forme.x = position['x'];
+    forme.y = position['y'];
 		scene.addChild(forme);
   }
   this.setPositionX = function(x)

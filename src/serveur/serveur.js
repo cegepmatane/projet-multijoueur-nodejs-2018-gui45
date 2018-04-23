@@ -98,6 +98,7 @@ serveurJeu.on('request', function(requete){
     envoie = JSON.stringify(message);
     for(id in listeJoueur)
       {
+        console.log(id);
         listeJoueur[id].sendUTF(envoie);
       }
     console.log(Object.keys(listeJoueur).length);
@@ -187,8 +188,8 @@ serveurJeu.on('request', function(requete){
         message = {};//message = message a envoyer
         message['action'] = "COMMENCER";
         message['idJoueur'] = connection.id;
-        message['joueursPatie'] = listePartie;
         message['position'] = position;
+        message['joueurParti'] = listePartie;
         message['nombreJoueurs'] = nombreJoueur;
         message['partie'] = listePartie;
         envoie = JSON.stringify(message);
