@@ -57,7 +57,7 @@ function Client()
     switch (data['action']) {
       case "COMMENCER":
         nom = data['idJoueur'];
-        console.log(nom);
+        //console.log(nom);
         evenement = new CustomEvent("DONNEE_INITIAL", {'detail':data});
         document.body.dispatchEvent(evenement);
         partieCommencer = true;

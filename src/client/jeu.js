@@ -66,7 +66,8 @@ function gereNouveauJoueurs(evenement)
   message = evenement.detail;
   position = message['position']
   id = message['idJoueur'];
-  listeJoueur[id] = new Joueur(id, "red", position, scene);
+  if(!listeJoueur[id])
+    listeJoueur[id] = new Joueur(id, "red", position, scene);
   nombreJoueur++;
 }
 function gererDeplacements(evenement)
