@@ -138,6 +138,7 @@ function valeursInitiale(evenement)
     if(listeJoueur[i])
       listeJoueur[i] = new Joueur(i, "red", positions, scene);
   }
+  console.log(listeJoueur);
   console.log(message['joueursPatie']);
   for(id in listePartie)
   {

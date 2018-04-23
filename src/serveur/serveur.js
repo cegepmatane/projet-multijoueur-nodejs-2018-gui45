@@ -64,7 +64,7 @@ function gererDeplacements()
     }
   }
 }
-var listeJoueur = {};
+var listeJoueur = [];
 var nombreJoueur = 0;
 var http = require('http');
 var serveur = http.createServer(repondre);
@@ -101,7 +101,7 @@ serveurJeu.on('request', function(requete){
         console.log(id);
         listeJoueur[id].sendUTF(envoie);
       }
-    console.log(Object.keys(listeJoueur).length);
+    console.log(listeJoueur.length);
 });
   connection.on('message', function(text){
     data = JSON.parse(text.utf8Data);
@@ -153,7 +153,7 @@ serveurJeu.on('request', function(requete){
   }
   function commencer(connection)
   {
-    if(Object.keys(listeJoueur).length >= 2){
+    if(listeJoueur.length >= 2){
       //console.log(commencer);
       //console.log(envoie);
       if(!patieCommencer){
@@ -189,7 +189,7 @@ serveurJeu.on('request', function(requete){
         message['action'] = "COMMENCER";
         message['idJoueur'] = connection.id;
         message['position'] = position;
-        message['joueurParti'] = listePartie;
+        message['joueursPatie'] = listePartie;
         message['nombreJoueurs'] = nombreJoueur;
         message['partie'] = listePartie;
         envoie = JSON.stringify(message);
