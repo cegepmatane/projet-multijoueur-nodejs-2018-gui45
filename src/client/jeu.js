@@ -1,7 +1,7 @@
 var canvas;
-var htmlAcceuil;
-var htmlJeu;
-var htmlMort;
+var vueDepart;
+var vueJeu;
+var vueMort;
 var listeJoueur = [];
 var listePartie = [];
 var listeBalle = [];
@@ -22,11 +22,11 @@ var Etat = {
 function initialiser()
 {
   partieCommencer = false;
-  htmlAcceuil = document.getElementById("accueil").innerHTML;
-  htmlJeu = document.getElementById("jeu").innerHTML;
-  htmlMort = document.getElementById("mort").innerHTML;
+  vueDepart = new VueDepart();
+  vueJeu = new VueJeu();
+  vueMort = new VueMort();
   client = new Client();
-  document.body.innerHTML = htmlAcceuil;
+  vueDepart.afficher();
   document.body.addEventListener("DONNEE_INITIAL",valeursInitiale);
   ajouterLesEvent();
 }
@@ -35,7 +35,6 @@ function ajouterLesEvent()
   document.onkeydown = gererToucheEnfoncee;
   document.onkeyup = gererToucheRelachee;
 
-  document.body.addEventListener("click",tirer)
   document.body.addEventListener("PARTI",joueurParti);
   document.body.addEventListener("TOUCHER",mort);
   document.body.addEventListener("DEPLACEMENT",gererDeplacements);
@@ -49,7 +48,7 @@ function tireJoueurs(evenement)
 }
 function mort(evenement)
 {
-   document.body.innerHTML = htmlMort;
+   vueMort.afficher();
 }
 function tirer(evenement)
 {
@@ -135,7 +134,7 @@ function valeursInitiale(evenement)
     positions = {};
     positions["x"] = i*10;
     positions["y"] = i*10;
-    if(listeJoueur[i])
+    if(!listeJoueur[i])
       listeJoueur[i] = new Joueur(i, "red", positions, scene);
   }
   console.log(listeJoueur);
@@ -144,6 +143,7 @@ function valeursInitiale(evenement)
   {
     listeJoueur[listePartie[id]].retirer();
   }
+  document.body.addEventListener("click",tirer)
 }
 function rafraichirJeu(evenement)
 {
@@ -153,7 +153,7 @@ function rafraichirJeu(evenement)
 }
 function commencer()
 {
-  document.body.innerHTML = htmlJeu;
+  vueJeu.afficher();
   canvas = document.getElementById('canvas');
   console.log(canvas);
   scene = new createjs.Stage(canvas);

@@ -26,11 +26,13 @@ function collisionBalle() {
         if(((joueur.position.y - 2 ) <  balle.getPositionY() && balle.getPositionY() < (joueur.position.y + 2)) &&
     			((joueur.position.x - 2 ) <  balle.getPositionX() && balle.getPositionX() < (joueur.position.x + 2)))
         {
-          console.log("toucher");
-          message = {};
-          message['action'] = "TOUCHER";
-          message['idJoueur'] = joueur.id;
-          envoie = JSON.stringify(message);
+          if(joueur.id != balle.getNomProprietaire()){
+            console.log("toucher");
+            message = {};
+            message['action'] = "TOUCHER";
+            message['idJoueur'] = joueur.id;
+            envoie = JSON.stringify(message);
+          }
           for(id in listeJoueur)
           {
               listeJoueur[id].sendUTF(envoie);
@@ -87,8 +89,8 @@ serveur.listen(8888);
 
 serveurJeu.on('request', function(requete){
   var connection = requete.accept('echo-protocol', requete.origine);
-  connection.id = nombreJoueur;
-  listeJoueur[nombreJoueur++] = connection;
+  connection.id = nombreJoueur++;
+  listeJoueur[connection.id] = connection;
 
   connection.on("close", function(){
     listePartie.push(connection.id);
