@@ -137,6 +137,12 @@ function valeursInitiale(evenement)
     positions["y"] = i*10;
     listeJoueur[i] = new Joueur(i, "red", positions, scene);
   }
+  console.log(message['joueursPatie']);
+  for(id in listePartie)
+  {
+    listeJoueur[listePartie[id]].retirer();
+  }
+  listeJoueur[0].retirer;
 }
 function rafraichirJeu(evenement)
 {

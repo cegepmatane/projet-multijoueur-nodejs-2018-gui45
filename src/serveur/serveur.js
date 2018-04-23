@@ -186,6 +186,7 @@ serveurJeu.on('request', function(requete){
         message = {};//message = message a envoyer
         message['action'] = "COMMENCER";
         message['idJoueur'] = connection.id;
+        message['joueursPatie'] = listePartie;
         message['position'] = position;
         message['nombreJoueurs'] = nombreJoueur;
         message['partie'] = listePartie;

@@ -43,7 +43,7 @@ function Client()
       data = {};
       data['action'] = "TIRER";
       data['destination'] = position;
-      console.log(data);
+      //console.log(data);
       envoie = JSON.stringify(data);
       socket.send(envoie);
     }
