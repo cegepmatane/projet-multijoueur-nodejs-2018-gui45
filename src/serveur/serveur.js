@@ -8,10 +8,29 @@ var repondre = function(requete, reponse)
   reponse.writeHead(200);
   reponse.end('requte recu');
 }
+var listePartie = [];
+var listeJoueur = [];
 function cycle()
 {
   gererDeplacements();
   collisionBalle();
+  if(listeJoueur.length - listePartie.length < 2)
+    victiore();
+}
+function victiore()
+{
+  joueur = null;
+  for(id in listeJoueur){
+    if(listeJoueur[id]){
+      joueur = listeJoueur[id];
+    }
+  }
+  console.log(joueur);
+  message = {};
+  message['action'] = "VICTOIRE";
+  envoie = JSON.stringify(message);
+  if(joueur)
+    joueur.sendUTF(envoie);
 }
 function collisionBalle() {
   for(idBalle in listeBalle)
@@ -27,6 +46,11 @@ function collisionBalle() {
     			((joueur.position.x - 2 ) <  balle.getPositionX() && balle.getPositionX() < (joueur.position.x + 2)))
         {
           if(joueur.id != balle.getNomProprietaire()){
+            listePartie.push(joueur.id);
+            for(id in listeJoueur){
+              if(listeJoueur[id].id == joueur.id)
+                listeJoueur.splice(id, 1);
+              }
             console.log("toucher");
             message = {};
             message['action'] = "TOUCHER";
@@ -70,13 +94,13 @@ function gererDeplacements()
     }
   }
 }
-var listeJoueur = [];
+
 var nombreJoueur = 0;
 var http = require('http');
 var serveur = http.createServer(repondre);
 var webSocket = require('WebSocket');
 var patieCommencer = false;
-var listePartie = [];
+
 var listeBalle = [];
 var Etat = {
   enAtente : "EN ATTENTE",
@@ -98,6 +122,10 @@ serveurJeu.on('request', function(requete){
 
   connection.on("close", function(){
     listePartie.push(connection.id);
+    for(id in listeJoueur){
+      if(listeJoueur[id].id == connection.id)
+        listeJoueur.splice(id, 1);
+    }
     message = {};
     message['action'] = "PARTI";
     message['idJoueur'] = connection.id;
@@ -115,7 +143,6 @@ serveurJeu.on('request', function(requete){
     switch(data['action']){
       case "COMMENCER":
         commencer(connection);
-
         break;
       case "CHANGER_ETAT":
         changerEtat(connection, data);

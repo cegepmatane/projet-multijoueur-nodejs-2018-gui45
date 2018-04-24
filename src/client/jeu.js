@@ -21,14 +21,17 @@ var Etat = {
 
 function initialiser()
 {
+
   partieCommencer = false;
   vueDepart = new VueDepart();
   vueJeu = new VueJeu();
   vueMort = new VueMort();
   client = new Client();
-  vueDepart.afficher();
   document.body.addEventListener("DONNEE_INITIAL",valeursInitiale);
+  window.addEventListener("hashchange", interpreterEvenementLocation);
+  window.location.hash = "";
   ajouterLesEvent();
+  interpreterEvenementLocation();
 }
 function ajouterLesEvent()
 {
@@ -49,7 +52,7 @@ function tireJoueurs(evenement)
 function mort(evenement)
 {
   console.log(evenement.detail);
-   vueMort.afficher();
+  window.location.hash = "mort";
 }
 function tirer(evenement)
 {
@@ -122,7 +125,8 @@ function joueurParti(evenement)
 {
   message = evenement.detail;
   //console.log(message);
-  listeJoueur[message['idJoueur']].retirer();
+  //if(listeJoueur[message['idJoueur']])
+    listeJoueur[message['idJoueur']].retirer();
 }
 function valeursInitiale(evenement)
 {
@@ -155,13 +159,18 @@ function rafraichirJeu(evenement)
 }
 function commencer()
 {
-  vueJeu.afficher();
+  window.location.hash = "jeu";
+  //vueJeu.afficher();
+  return false;
+}
+function charger(){
   canvas = document.getElementById('canvas');
   console.log(canvas);
   scene = new createjs.Stage(canvas);
   createjs.Ticker.setFPS(60);
   createjs.Ticker.addEventListener("tick", rafraichirJeu);
   client.commencer();
+
 }
 function gererToucheEnfoncee(evenement)
   {
@@ -187,6 +196,18 @@ function gererToucheEnfoncee(evenement)
 function gererToucheRelachee(evenement)
 {
   client.changerEtat(Etat.enAtente);
+}
+function interpreterEvenementLocation(event)
+{
+  var instructionNavigation = window.location.hash;
+  if(!instructionNavigation || instructionNavigation.match(/^#accueil$/)){
+    vueDepart.afficher();
+  }else if(instructionNavigation.match(/^#jeu$/)){
+    vueJeu.afficher();
+    charger();
+  }else if(instructionNavigation.match(/^#mort$/)){
+    vueMort.afficher();
+  }
 }
 initialiser();
 window.configuration = {
