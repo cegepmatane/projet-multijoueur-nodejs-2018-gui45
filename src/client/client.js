@@ -86,6 +86,12 @@ function Client()
           document.body.dispatchEvent(evenement);
         //}
         break;
+      case "VICTOIRE":
+        if(partieCommencer){
+          evenement = new CustomEvent("VICTOIRE", {'detail':data});
+          document.body.dispatchEvent(evenement);
+        }
+        break;
     }
   }
   initialiser();

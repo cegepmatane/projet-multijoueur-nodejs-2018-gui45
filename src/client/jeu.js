@@ -2,6 +2,7 @@ var canvas;
 var vueDepart;
 var vueJeu;
 var vueMort;
+var vueVictoire;
 var listeJoueur = [];
 var listePartie = [];
 var listeBalle = [];
@@ -26,6 +27,7 @@ function initialiser()
   vueDepart = new VueDepart();
   vueJeu = new VueJeu();
   vueMort = new VueMort();
+  vueVictoire = new VueVictoire();
   client = new Client();
   document.body.addEventListener("DONNEE_INITIAL",valeursInitiale);
   window.addEventListener("hashchange", interpreterEvenementLocation);
@@ -43,11 +45,16 @@ function ajouterLesEvent()
   document.body.addEventListener("DEPLACEMENT",gererDeplacements);
   document.body.addEventListener("NOUVEAU_JOUEUR",gereNouveauJoueurs);
   document.body.addEventListener("TIRE", tireJoueurs)
+  document.body.addEventListener("VICTOIRE", victoire)
 }
 function tireJoueurs(evenement)
 {
   message = evenement.detail;
   listeBalle.push(new Balle(message['destination'], message['source']));
+}
+function victoire(evenement)
+{
+  window.location.hash = "victoire";
 }
 function mort(evenement)
 {
@@ -207,6 +214,8 @@ function interpreterEvenementLocation(event)
     charger();
   }else if(instructionNavigation.match(/^#mort$/)){
     vueMort.afficher();
+  }else if(instructionNavigation.match(/^#victoire$/)){
+    vueVictoire.afficher();
   }
 }
 initialiser();

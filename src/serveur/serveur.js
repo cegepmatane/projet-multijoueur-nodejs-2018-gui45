@@ -25,7 +25,7 @@ function victiore()
       joueur = listeJoueur[id];
     }
   }
-  console.log(joueur);
+  //console.log(joueur);
   message = {};
   message['action'] = "VICTOIRE";
   envoie = JSON.stringify(message);
