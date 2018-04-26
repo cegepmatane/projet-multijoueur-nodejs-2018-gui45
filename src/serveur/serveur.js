@@ -55,6 +55,7 @@ function collisionBalle() {
             message = {};
             message['action'] = "TOUCHER";
             message['idJoueur'] = joueur.id;
+            message['joueurRestant'] = listeJoueur.length - listePartie.length;
             envoie = JSON.stringify(message);
             joueur.sendUTF(envoie);
 
@@ -129,6 +130,7 @@ serveurJeu.on('request', function(requete){
     message = {};
     message['action'] = "PARTI";
     message['idJoueur'] = connection.id;
+    message['joueurRestant'] = listeJoueur.length - listePartie.length;
     envoie = JSON.stringify(message);
     for(id in listeJoueur)
       {
@@ -202,6 +204,7 @@ serveurJeu.on('request', function(requete){
         message['idJoueur'] = id;
         message['position'] = position;
         message['nombreJoueurs'] = nombreJoueur;
+        message['joueurRestant'] = listeJoueur.length - listePartie.length;
         message['partie'] = listePartie;
         envoie = JSON.stringify(message);
         for(id in listeJoueur)
@@ -224,6 +227,7 @@ serveurJeu.on('request', function(requete){
         message['position'] = position;
         message['joueursPatie'] = listePartie;
         message['nombreJoueurs'] = nombreJoueur;
+        message['joueurRestant'] = listeJoueur.length - listePartie.length;
         message['partie'] = listePartie;
         envoie = JSON.stringify(message);
         connection.sendUTF(envoie);

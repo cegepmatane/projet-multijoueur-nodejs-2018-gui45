@@ -11,7 +11,7 @@ function Joueur(nom, couleur, position, scene){
   function initialiser()
   {
     dessiner(couleur);
-    console.log(nom + "cree")
+    //console.log(nom + "cree")
     etatCourrant = Etat.enAtente;
   }
   function dessiner(couleur)

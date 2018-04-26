@@ -12,6 +12,7 @@ var client;
 var id;
 var joueurEnMouvement = {};
 var partieCommencer;
+var joueurRestant;
 var Etat = {
   enAtente : "EN ATTENTE",
   enDeplacementDroit : "ETAT EN DEPLACEMENT DROIT",
@@ -79,6 +80,8 @@ function gereNouveauJoueurs(evenement)
   if(!listeJoueur[id])
     listeJoueur[id] = new Joueur(id, "red", position, scene);
   nombreJoueur++;
+  joueurRestant = message['joueurRestant'];
+  vueJeu.changerJoueurRestant(joueurRestant);
 }
 function gererDeplacements(evenement)
 {
@@ -131,15 +134,19 @@ function deplacerJoueurs()
 function joueurParti(evenement)
 {
   message = evenement.detail;
-  //console.log(message);
+  console.log(message);
   //if(listeJoueur[message['idJoueur']])
-    listeJoueur[message['idJoueur']].retirer();
+  listeJoueur[message['idJoueur']].retirer();
+  vueJeu.changerJoueurRestant(message['joueurRestant']);
 }
 function valeursInitiale(evenement)
 {
+
   message = evenement.detail;
   listePartie = message['partie'];
   id = message['idJoueur'];
+  joueurRestant = message['joueurRestant'];
+  vueJeu.changerJoueurRestant(joueurRestant);
   console.log(id);
   //console.log(message['nombreJoueurs']);
   for(i = 0; i <= message['idJoueur']; i++)
@@ -150,8 +157,8 @@ function valeursInitiale(evenement)
     if(!listeJoueur[i])
       listeJoueur[i] = new Joueur(i, "red", positions, scene);
   }
-  console.log(listeJoueur);
-  console.log(message['joueursPatie']);
+  //console.log(listeJoueur);
+  //console.log(message['joueursPatie']);
   for(id in listePartie)
   {
     listeJoueur[listePartie[id]].retirer();
@@ -172,7 +179,7 @@ function commencer()
 }
 function charger(){
   canvas = document.getElementById('canvas');
-  console.log(canvas);
+  //console.log(canvas);
   scene = new createjs.Stage(canvas);
   createjs.Ticker.setFPS(60);
   createjs.Ticker.addEventListener("tick", rafraichirJeu);
@@ -212,6 +219,7 @@ function interpreterEvenementLocation(event)
   }else if(instructionNavigation.match(/^#jeu$/)){
     vueJeu.afficher();
     charger();
+
   }else if(instructionNavigation.match(/^#mort$/)){
     vueMort.afficher();
   }else if(instructionNavigation.match(/^#victoire$/)){
@@ -224,4 +232,5 @@ window.configuration = {
 	toucheDroite:68,
 	toucheGauche:65,
 	toucheBas:83,
+  partie:"PARTI"
 }
