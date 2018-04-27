@@ -8,11 +8,15 @@
   <body>
     <script type="text/plain" id="accueil">
       <form method="post" action="#" onsubmit="return commencer()">
+        <div>
+          <label for"nom">nom : </label>
+          <input type="text" name="nom" id="champNom">
+        </div>
         <input type="submit" value="commencer">
       </form>
     </script>
     <script type="text/plain" id="jeu">
-      <div><p>nombre de joueur restant : </p><p id="joueurRestant"></p></div>
+      <div><p>nombre de joueur restant : </p><p id="joueurRestant"></p><p id="nom"></p></div>
       <canvas width="500" height="500" id="canvas"></canvas>
     </script>
     <script type="text/plain" id="mort">

@@ -1,3 +1,10 @@
 p{
   display: inline-block;
 }
+canvas{
+  border-style: solid;
+  border-width: 2px;
+}
+#nom{
+  margin-left: 150px
+}

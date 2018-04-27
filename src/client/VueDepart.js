@@ -1,14 +1,14 @@
 function VueDepart()
 {
 	var corp;
-
 	function initialiser()
 	{
-		corp = document.getElementsByTagName("body")[0];
+		corp = document.body;
 	}
 	this.afficher = function()
 	{
 		corp.innerHTML = VueDepart.pageDepartHTML;
+
 	}
 	initialiser();
 }

@@ -33,7 +33,6 @@ function initialiser()
   document.body.addEventListener("DONNEE_INITIAL",valeursInitiale);
   window.addEventListener("hashchange", interpreterEvenementLocation);
   window.location.hash = "";
-  ajouterLesEvent();
   interpreterEvenementLocation();
 }
 function ajouterLesEvent()
@@ -217,9 +216,10 @@ function interpreterEvenementLocation(event)
   if(!instructionNavigation || instructionNavigation.match(/^#accueil$/)){
     vueDepart.afficher();
   }else if(instructionNavigation.match(/^#jeu$/)){
+    vueJeu.recupererNom();
     vueJeu.afficher();
     charger();
-
+    ajouterLesEvent();
   }else if(instructionNavigation.match(/^#mort$/)){
     vueMort.afficher();
   }else if(instructionNavigation.match(/^#victoire$/)){

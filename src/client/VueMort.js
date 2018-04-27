@@ -4,7 +4,7 @@ function VueMort()
 
 	function initialiser()
 	{
-		corp = document.getElementsByTagName("body")[0];
+		corp = document.body;
 	}
 	this.afficher = function()
 	{
