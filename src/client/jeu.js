@@ -77,7 +77,7 @@ function gereNouveauJoueurs(evenement)
   position = message['position']
   id = message['idJoueur'];
   if(!listeJoueur[id])
-    listeJoueur[id] = new Joueur(id, "red", position, scene);
+    listeJoueur[id] = new Joueur(id, window.configuration.courleurJoueur, position, scene);
   nombreJoueur++;
   joueurRestant = message['joueurRestant'];
   vueJeu.changerJoueurRestant(joueurRestant);
@@ -154,7 +154,7 @@ function valeursInitiale(evenement)
     positions["x"] = i*10;
     positions["y"] = i*10;
     if(!listeJoueur[i])
-      listeJoueur[i] = new Joueur(i, "red", positions, scene);
+      listeJoueur[i] = new Joueur(i, window.configuration.courleurJoueur, positions, scene);
   }
   //console.log(listeJoueur);
   //console.log(message['joueursPatie']);
@@ -232,5 +232,5 @@ window.configuration = {
 	toucheDroite:68,
 	toucheGauche:65,
 	toucheBas:83,
-  partie:"PARTI"
+  courleurJoueur:"gray"
 }

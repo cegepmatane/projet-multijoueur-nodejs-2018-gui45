@@ -5,7 +5,7 @@ function Balle (destination, depart){
 	function initialiser()
 	{
 		forme = new createjs.Shape();
-		forme.graphics.beginFill("black").drawCircle(0, 0, 2);
+		forme.graphics.beginFill("yellow").drawCircle(0, 0, 2);
 		forme['x'] = depart['x'];
 		forme['y'] = depart['y'];
 		scene.addChild(forme);

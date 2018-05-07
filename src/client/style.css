@@ -1,10 +1,27 @@
 p{
   display: inline-block;
+  background-color: gray;
+}
+label{
+  background-color: gray;
 }
 canvas{
+  box-shadow: 5px 5px 5px black;
   border-style: solid;
   border-width: 2px;
+
+  background: url(images/arrierePlanCanvas.svg);
+  background-color: black;
+  background-size: cover;
+  background-repeat: repeat;
 }
 #nom{
   margin-left: 150px
+}
+body{
+  background: url(images/arrierePlan.svg);
+  background-color: rgb(255, 19, 0);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: repeat;
 }
