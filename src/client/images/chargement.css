@@ -1,0 +1,66 @@
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+}
+
+h1 {
+  color: black;
+  text-align: center;
+  font-size: 10vw;
+  position: relative;
+  font-weight: 900;
+  text-transform: uppercase;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  position: absolute;
+  margin: 0;
+}
+h1:before, h1:after {
+  content: attr(data-heading);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+h1:before {
+  -webkit-clip-path: polygon(0 0, 100% 0%, 100% 39%, 0 67%);
+          clip-path: polygon(0 0, 100% 0%, 100% 39%, 0 67%);
+  color: white;
+  text-shadow: 3px -2px 5px white, -3px 3px 4px white;
+  background: white;
+}
+h1:after {
+  -webkit-clip-path: polygon(0 0, 100% 0%, 100% 37%, 0 65%);
+          clip-path: polygon(0 0, 100% 0%, 100% 37%, 0 65%);
+  color: black;
+  -webkit-animation: fracture 5s infinite ease;
+          animation: fracture 5s infinite ease;
+}
+
+@-webkit-keyframes fracture {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  50% {
+    -webkit-transform: translate(-20px, 2%);
+            transform: translate(-20px, 2%);
+  }
+}
+
+@keyframes fracture {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  50% {
+    -webkit-transform: translate(-20px, 2%);
+            transform: translate(-20px, 2%);
+  }
+}

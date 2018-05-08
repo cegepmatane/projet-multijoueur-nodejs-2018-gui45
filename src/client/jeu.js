@@ -3,6 +3,7 @@ var vueDepart;
 var vueJeu;
 var vueMort;
 var vueVictoire;
+var vueChargement;
 var listeJoueur = [];
 var listePartie = [];
 var listeBalle = [];
@@ -25,6 +26,7 @@ function initialiser()
 {
 
   partieCommencer = false;
+  vueChargement = new VueChargement();
   vueDepart = new VueDepart();
   vueJeu = new VueJeu();
   vueMort = new VueMort();
@@ -140,12 +142,17 @@ function joueurParti(evenement)
 }
 function valeursInitiale(evenement)
 {
-
+  window.location.hash = "jeu";
+  canvas = document.getElementById('canvas');
+  //console.log(canvas);
+  scene = new createjs.Stage(canvas);
+  createjs.Ticker.setFPS(60);
+  createjs.Ticker.addEventListener("tick", rafraichirJeu);
   message = evenement.detail;
   listePartie = message['partie'];
   id = message['idJoueur'];
   joueurRestant = message['joueurRestant'];
-  vueJeu.changerJoueurRestant(joueurRestant);
+
   console.log(id);
   //console.log(message['nombreJoueurs']);
   for(i = 0; i <= message['idJoueur']; i++)
@@ -172,19 +179,11 @@ function rafraichirJeu(evenement)
 }
 function commencer()
 {
-  window.location.hash = "jeu";
-  //vueJeu.afficher();
+  window.location.hash = "chargement";
+  client.commencer();
   return false;
 }
-function charger(){
-  canvas = document.getElementById('canvas');
-  //console.log(canvas);
-  scene = new createjs.Stage(canvas);
-  createjs.Ticker.setFPS(60);
-  createjs.Ticker.addEventListener("tick", rafraichirJeu);
-  client.commencer();
 
-}
 function gererToucheEnfoncee(evenement)
   {
     //console.log("toucher");
@@ -216,14 +215,15 @@ function interpreterEvenementLocation(event)
   if(!instructionNavigation || instructionNavigation.match(/^#accueil$/)){
     vueDepart.afficher();
   }else if(instructionNavigation.match(/^#jeu$/)){
-    vueJeu.recupererNom();
     vueJeu.afficher();
-    charger();
+    vueJeu.changerJoueurRestant(joueurRestant);
     ajouterLesEvent();
   }else if(instructionNavigation.match(/^#mort$/)){
     vueMort.afficher();
   }else if(instructionNavigation.match(/^#victoire$/)){
     vueVictoire.afficher();
+  }else if(instructionNavigation.match(/^#chargement/)){
+    vueChargement.afficher();
   }
 }
 initialiser();
