@@ -1,22 +1,33 @@
 p{
+  margin-left: 10px;
   display: inline-block;
-  background-color: gray;
+  color: white;
 }
 label{
   background-color: gray;
 }
 canvas{
+  margin: 10px 10px 10px 10px;
+  display: block;
   box-shadow: 5px 5px 5px black;
   border-style: solid;
   border-width: 2px;
-
+  position: absolute;
   background: url(images/arrierePlanCanvas.svg);
   background-color: black;
   background-size: cover;
   background-repeat: repeat;
 }
-#nom{
+#label{
   margin-left: 150px
+}
+#hud{
+  margin: 10px 10px 10px 10px;
+  box-shadow: 5px 5px 5px black;
+  display: block;
+  width: 500px;
+  background-color: black;
+  opacity: 0.7;
 }
 body{
   background: url(images/arrierePlan.svg);
