@@ -188,7 +188,7 @@ serveurJeu.on('request', function(requete){
   }
   function commencer(connection)
   {
-    if(listeJoueur.length-1 >= 2){
+    if(listeJoueur.length >= 2){
       //console.log(commencer);
       //console.log(envoie);
       if(!patieCommencer){
