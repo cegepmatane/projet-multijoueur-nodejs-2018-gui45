@@ -56,14 +56,3 @@ h1:after {
             transform: translate(-20px, 2%);
   }
 }
-
-@keyframes fracture {
-  0% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-  }
-  50% {
-    -webkit-transform: translate(-20px, 2%);
-            transform: translate(-20px, 2%);
-  }
-}
