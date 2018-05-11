@@ -14,6 +14,8 @@ var id;
 var joueurEnMouvement = {};
 var partieCommencer;
 var joueurRestant;
+var evenementDepart;
+var nom;
 var Etat = {
   enAtente : "EN ATTENTE",
   enDeplacementDroit : "ETAT EN DEPLACEMENT DROIT",
@@ -32,7 +34,7 @@ function initialiser()
   vueMort = new VueMort();
   vueVictoire = new VueVictoire();
   client = new Client();
-  document.body.addEventListener("DONNEE_INITIAL",valeursInitiale);
+  document.body.addEventListener("DONNEE_INITIAL",depart);
   window.addEventListener("hashchange", interpreterEvenementLocation);
   window.location.hash = "";
   interpreterEvenementLocation();
@@ -140,9 +142,14 @@ function joueurParti(evenement)
   listeJoueur[message['idJoueur']].retirer();
   vueJeu.changerJoueurRestant(message['joueurRestant']);
 }
-function valeursInitiale(evenement)
+function depart(evenement)
 {
   window.location.hash = "jeu";
+  evenementDepart = evenement;
+  joueurRestant = evenement.detail['joueurRestant'];
+}
+function valeurInitiale(evenement)
+{
   canvas = document.getElementById('canvas');
   //console.log(canvas);
   scene = new createjs.Stage(canvas);
@@ -151,9 +158,6 @@ function valeursInitiale(evenement)
   message = evenement.detail;
   listePartie = message['partie'];
   id = message['idJoueur'];
-  joueurRestant = message['joueurRestant'];
-
-  console.log(id);
   //console.log(message['nombreJoueurs']);
   for(i = 0; i <= message['idJoueur']; i++)
   {
@@ -179,6 +183,8 @@ function rafraichirJeu(evenement)
 }
 function commencer()
 {
+  nom = document.getElementById("champNom").value;
+  //console.log(nom);
   window.location.hash = "chargement";
   client.commencer();
   return false;
@@ -215,8 +221,9 @@ function interpreterEvenementLocation(event)
   if(!instructionNavigation || instructionNavigation.match(/^#accueil$/)){
     vueDepart.afficher();
   }else if(instructionNavigation.match(/^#jeu$/)){
-    vueJeu.afficher();
+    vueJeu.afficher(nom);
     vueJeu.changerJoueurRestant(joueurRestant);
+    valeurInitiale(evenementDepart);
     ajouterLesEvent();
   }else if(instructionNavigation.match(/^#mort$/)){
     vueMort.afficher();

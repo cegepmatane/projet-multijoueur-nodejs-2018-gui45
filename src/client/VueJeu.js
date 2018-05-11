@@ -2,25 +2,19 @@ function VueJeu()
 {
 	var corp;
 	var joueurRestant;
-	var champNom;
 	function initialiser()
 	{
 		corp = document.body;
 	}
-	this.afficher = function()
+	this.afficher = function(nomJoueur)
 	{
 		corp.innerHTML = VueJeu.pageJeuHTML;
 		joueurRestant = document.getElementById("joueurRestant");
-		document.getElementById("nom").innerHTML = champNom;
+		document.getElementById("nom").innerHTML = nomJoueur;
 	}
 	this.changerJoueurRestant = function(nombre)
 	{
 		joueurRestant.innerHTML = nombre;
-	}
-	this.recupererNom = function()
-	{
-		champNom = document.getElementById("champNom").value;
-		console.log(champNom);
 	}
 	initialiser();
 }

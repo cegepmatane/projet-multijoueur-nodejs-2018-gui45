@@ -24,7 +24,6 @@ function Client()
     data['action'] = "COMMENCER";
     envoie = JSON.stringify(data);
     socket.send(envoie);
-    return false;
   }
   this.changerEtat = function(nouvelEtat)
   {
