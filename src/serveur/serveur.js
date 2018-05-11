@@ -14,7 +14,7 @@ function cycle()
 {
   gererDeplacements();
   collisionBalle();
-  if(listeJoueur.length - listePartie.length < 2)
+  if(nombreJoueurVivant < 2)
     victiore();
 }
 function victiore()
@@ -46,6 +46,7 @@ function collisionBalle() {
     			((joueur.position.x - 2 ) <  balle.getPositionX() && balle.getPositionX() < (joueur.position.x + 2)))
         {
           if(joueur.id != balle.getNomProprietaire()){
+            nombreJoueurVivant-=1;
             listePartie.push(joueur.id);
             for(id in listeJoueur){
               if(listeJoueur[id].id == joueur.id)
@@ -55,16 +56,16 @@ function collisionBalle() {
             message = {};
             message['action'] = "TOUCHER";
             message['idJoueur'] = joueur.id;
-            message['joueurRestant'] = listeJoueur.length - listePartie.length;
+            message['joueurRestant'] = nombreJoueurVivant;
             envoie = JSON.stringify(message);
             joueur.sendUTF(envoie);
 
             message['action'] = "PARTI";
             envoie = JSON.stringify(message);
-          }
-          for(id in listeJoueur)
-          {
-              listeJoueur[id].sendUTF(envoie);
+            for(id in listeJoueur)
+            {
+                listeJoueur[id].sendUTF(envoie);
+            }
           }
         }
       }
@@ -96,12 +97,12 @@ function gererDeplacements()
   }
 }
 
-var nombreJoueur = 0;
+var nombreJoueurTotal = 0;
 var http = require('http');
 var serveur = http.createServer(repondre);
 var webSocket = require('WebSocket');
 var patieCommencer = false;
-
+var nombreJoueurVivant = 0;
 var listeBalle = [];
 var Etat = {
   enAtente : "EN ATTENTE",
@@ -118,23 +119,26 @@ serveur.listen(8888);
 
 serveurJeu.on('request', function(requete){
   var connection = requete.accept('echo-protocol', requete.origine);
-  connection.id = nombreJoueur++;
+  connection.id = nombreJoueurTotal++;
+  nombreJoueurVivant+=1;
   listeJoueur[connection.id] = connection;
 
   connection.on("close", function(){
     listePartie.push(connection.id);
+    nombreJoueurVivant-=1;
     for(id in listeJoueur){
       if(listeJoueur[id].id == connection.id)
         listeJoueur.splice(id, 1);
     }
+    console.log(nombreJoueurVivant);
     message = {};
     message['action'] = "PARTI";
     message['idJoueur'] = connection.id;
-    message['joueurRestant'] = listeJoueur.length - listePartie.length;
+    message['joueurRestant'] = nombreJoueurVivant;
     envoie = JSON.stringify(message);
     for(id in listeJoueur)
       {
-        console.log(id);
+        //console.log(id);
         listeJoueur[id].sendUTF(envoie);
       }
     console.log(listeJoueur.length);
@@ -203,8 +207,8 @@ serveurJeu.on('request', function(requete){
         message['action'] = "COMMENCER";
         message['idJoueur'] = id;
         message['position'] = position;
-        message['nombreJoueurs'] = nombreJoueur;
-        message['joueurRestant'] = listeJoueur.length - listePartie.length;
+        message['nombreJoueurs'] = nombreJoueurTotal;
+        message['joueurRestant'] = nombreJoueurVivant;
         message['partie'] = listePartie;
         envoie = JSON.stringify(message);
         for(id in listeJoueur)
@@ -226,8 +230,8 @@ serveurJeu.on('request', function(requete){
         message['idJoueur'] = connection.id;
         message['position'] = position;
         message['joueursPatie'] = listePartie;
-        message['nombreJoueurs'] = nombreJoueur;
-        message['joueurRestant'] = listeJoueur.length - listePartie.length;
+        message['nombreJoueurs'] = nombreJoueurTotal;
+        message['joueurRestant'] = nombreJoueurVivant;
         message['partie'] = listePartie;
         envoie = JSON.stringify(message);
         connection.sendUTF(envoie);
