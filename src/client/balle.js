@@ -2,10 +2,17 @@ function Balle (destination, depart){
 	var forme;
 	var animationJoueur;
 	var intervalBouger;
+	var svg;
 	function initialiser()
 	{
-		forme = new createjs.Shape();
-		forme.graphics.beginFill("yellow").drawCircle(0, 0, 2);
+		svg = new Image();
+		svg.src =  'images/balle.svg' ;
+		svg.addEventListener('load', terminer);
+	}
+	function terminer(evenement)
+	{
+		document.body.appendChild(svg);
+		forme = new createjs.Bitmap(svg);
 		forme['x'] = depart['x'];
 		forme['y'] = depart['y'];
 		scene.addChild(forme);
