@@ -2,22 +2,24 @@ function Balle (destination, depart){
 	var forme;
 	var animationJoueur;
 	var intervalBouger;
-	var svg;
+	var chargeur;
 	function initialiser()
 	{
-		svg = new Image();
-		svg.src =  'images/balle.svg' ;
-		svg.addEventListener('load', terminer);
+		chargeur = new createjs.LoadQueue(false);
+		chargeur.on('complete', terminer);
+		chargeur.loadManifest({
+			id:'svg',
+			src:'images/balle.svg',
+			type: createjs.AbstractLoader.IMAGE
+		})
 	}
 	function terminer(evenement)
 	{
-		document.body.appendChild(svg);
-		forme = new createjs.Bitmap(svg);
+		forme = new createjs.Bitmap(chargeur.getResult('svg'));
 		forme['x'] = depart['x'];
 		forme['y'] = depart['y'];
 		scene.addChild(forme);
 		intervalBouger = setInterval(bouger,1000/60);
-		//console.log(forme.x);
 	}
 	function bouger()
 	{
