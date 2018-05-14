@@ -1,13 +1,40 @@
 p{
-  margin-left: 10px;
-  display: inline-block;
-  color: white;
+  color:gray;
 }
 label{
   background-color: gray;
 }
-canvas{
-  margin: 10px 10px 10px 10px;
+form{
+  margin: 10px;
+  display: block;
+  background-color: black;
+  opacity: 0.7;
+  width: 500px;
+  padding: 5px;
+  box-shadow: 5px 5px 5px black;
+}
+#modifier{
+  display: block;
+  margin: 10px 10px 0px 10px;
+  background-color: black;
+  opacity: 0.7;
+  width: 500px;
+  padding: 5px;
+  box-shadow: 5px 5px 5px black;
+}
+#apercu{
+  box-shadow: 5px 5px 5px black;
+  padding:0px;
+  margin: 0px 10px 10px 10px;
+  border-style: solid;
+  border-width: 2px;
+  position: absolute;
+  background-color: black;
+  background-size: cover;
+  background-repeat: repeat;
+}
+#canvas{
+  margin: 10px
   display: block;
   box-shadow: 5px 5px 5px black;
   border-style: solid;
@@ -22,7 +49,7 @@ canvas{
   margin-left: 150px
 }
 #hud{
-  margin: 10px 10px 10px 10px;
+  margin: 10px;
   box-shadow: 5px 5px 5px black;
   display: block;
   width: 500px;

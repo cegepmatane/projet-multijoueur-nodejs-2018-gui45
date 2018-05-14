@@ -8,7 +8,7 @@
   </head>
   <body>
     <script type="text/plain" id="accueil">
-      <a href="#modification">Modifier le personnage</a>
+
       <form method="post" action="#" onsubmit="return commencer()">
         <div>
           <label for"nom">nom : </label>
@@ -16,6 +16,11 @@
         </div>
         <input type="submit" value="commencer">
       </form>
+      <div id="modifier">
+        <p>apercu du personnage</p>
+        <a href="#modification">Modifier le personnage</a>
+      </div>
+      <canvas width="500" height="500" id="apercu"></canvas>
     </script>
     <script type="text/plain" id="modification">
       <canvas width="500" height="500" id="personnage"></canvas>
