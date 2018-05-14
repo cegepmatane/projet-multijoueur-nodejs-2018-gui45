@@ -27,7 +27,6 @@ var Etat = {
 
 function initialiser()
 {
-
   partieCommencer = false;
   VueModification = new VueModification();
   vueChargement = new VueChargement();
@@ -36,7 +35,6 @@ function initialiser()
   vueMort = new VueMort();
   vueVictoire = new VueVictoire();
   client = new Client();
-  document.body.addEventListener("DONNEE_INITIAL",depart);
   window.addEventListener("hashchange", interpreterEvenementLocation);
   window.location.hash = "";
   interpreterEvenementLocation();
@@ -187,32 +185,33 @@ function commencer()
 {
   nom = document.getElementById("champNom").value;
   //console.log(nom);
+  document.body.addEventListener("DONNEE_INITIAL",depart);
   window.location.hash = "chargement";
   client.commencer();
   return false;
 }
 
 function gererToucheEnfoncee(evenement)
-  {
-    //console.log("toucher");
-    //console.log(listeJoueur[2].getPositionY());
-    joueur = listeJoueur[id];
-      switch(evenement.keyCode)
-      {
-          case window.configuration.toucheGauche:
-            client.changerEtat(Etat.enDeplacementGauche);
-            break;
-          case window.configuration.toucheDroite:
-            client.changerEtat(Etat.enDeplacementDroit);
-            break;
-          case window.configuration.toucheAvancer:
-            client.changerEtat(Etat.enDeplacementHAUT);
-            break;
-          case window.configuration.toucheBas:
-            client.changerEtat(Etat.enDeplacementBAS);
-            break;
-      }
+{
+  //console.log("toucher");
+  //console.log(listeJoueur[2].getPositionY());
+  joueur = listeJoueur[id];
+    switch(evenement.keyCode)
+    {
+      case window.configuration.toucheGauche:
+        client.changerEtat(Etat.enDeplacementGauche);
+        break;
+      case window.configuration.toucheDroite:
+        client.changerEtat(Etat.enDeplacementDroit);
+        break;
+      case window.configuration.toucheAvancer:
+        client.changerEtat(Etat.enDeplacementHAUT);
+        break;
+      case window.configuration.toucheBas:
+        client.changerEtat(Etat.enDeplacementBAS);
+        break;
   }
+}
 function gererToucheRelachee(evenement)
 {
   client.changerEtat(Etat.enAtente);
