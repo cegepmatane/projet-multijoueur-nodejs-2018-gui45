@@ -13,6 +13,11 @@ form{
   padding: 5px;
   box-shadow: 5px 5px 5px black;
 }
+#formModification{
+  position:absolute;
+  top:200px;
+  left:550px;
+}
 #effetToucher{
   position: absolute;
   z-index: -1;

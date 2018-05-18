@@ -2,7 +2,7 @@ var canvas;
 var vueDepart;
 var vueJeu;
 var vueMort;
-var VueModification;
+var vueModification;
 var vueVictoire;
 var vueChargement;
 var listeJoueur = [];
@@ -28,7 +28,7 @@ var Etat = {
 function initialiser()
 {
   partieCommencer = false;
-  VueModification = new VueModification();
+  vueModification = new VueModification();
   vueChargement = new VueChargement();
   vueDepart = new VueDepart();
   vueJeu = new VueJeu();
@@ -233,7 +233,7 @@ function interpreterEvenementLocation(event)
   }else if(instructionNavigation.match(/^#chargement/)){
     vueChargement.afficher();
   }else if(instructionNavigation.match(/^#modification/)){
-    VueModification.afficher();
+    vueModification.afficher();
   }
 }
 initialiser();
