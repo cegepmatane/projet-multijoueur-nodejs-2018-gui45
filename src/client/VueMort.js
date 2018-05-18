@@ -9,6 +9,7 @@ function VueMort()
 	this.afficher = function()
 	{
 		corp.innerHTML = VueMort.pageMortHTML;
+		animationToucher = new AnimationToucher();
 	}
 	initialiser();
 }

@@ -1,18 +1,9 @@
 function AnimationToucher()
 {
   function initialiser(){
-    chargeur = new createjs.LoadQueue(false);
-    chargeur.on('complete', terminer);
-    chargeur.loadManifest({
-      id:'svg',
-      src:'images/particule.svg',
-      type: createjs.AbstractLoader.IMAGE
-    })
-  }
-  function terminer(evenement)
-  {
-    forme = new createjs.Bitmap(chargeur.getResult('svg'));
-    scene.addChild(forme);
+    TweenMax.set("#stage", {xPercent:-50, yPercent:-50});
+    TweenMax.set(".rain2", {y:-500});
+    TweenMax.to(".rain1 , .rain2", 7, {y:"+=500", repeat:-1, ease:Linear.easeNone});
   }
   initialiser();
 }
