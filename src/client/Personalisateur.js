@@ -1,8 +1,5 @@
 function Personalisateur()
 {
-	var bouttonSauvegarder=document.getElementById("sauvgarder");
-	var bouttonCharger=document.getElementById("charger");
- 	var svg=document.getElementById("apercu");
 	var flame1;
 	var flame2;
 	var flame3;
@@ -10,13 +7,23 @@ function Personalisateur()
 	var corp2;
 	var corp3;
 	var corp4;
-	var formulaire=document.getElementById("formModification");
-	var courleurVaisseau=document.getElementById("vaisseau");
-	var courleurFlames=document.getElementById("flames");
+	var bouttonSauvegarder;
+	var bouttonCharger;
+ 	var svg;
+	var formulaire;
+	var courleurVaisseau;
+	var courleurFlames;
 	function initialiser()
 	{
-  	//console.log(svg.innerHTML);
+		bouttonSauvegarder=document.getElementById("sauvgarder");
+		bouttonCharger=document.getElementById("charger");
+	 	svg=document.getElementById("apercu");
+		formulaire=document.getElementById("formModification");
+		courleurVaisseau=document.getElementById("vaisseau");
+		courleurFlames=document.getElementById("flames");
+
 		chargerElementsSvg();
+		
 		courleurVaisseau.addEventListener('input', changerCouleurVaisseau);
 		courleurFlames.addEventListener('input', changerCouleurFlames);
 		bouttonSauvegarder.addEventListener('click', sauvgarder);
