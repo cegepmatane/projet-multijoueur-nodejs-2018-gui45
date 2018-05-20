@@ -16,11 +16,20 @@ function Joueur(nom, couleur, position, scene){
   }
   function dessiner(couleur)
   {
-    forme = new createjs.Shape();
-		forme.graphics.beginFill(couleur).drawRect(-5,-5, 10, 10).endFill();
-    forme.x = position['x'];
-    forme.y = position['y'];
-		scene.addChild(forme);
+    chargeur = new createjs.LoadQueue(false);
+    chargeur.on('complete', terminer);
+    chargeur.loadManifest({
+      id:'svg',
+      src:'images/vaisseauJeu.svg',
+      type: createjs.AbstractLoader.IMAGE
+    })
+  }
+  function terminer(evenement)
+  {
+    forme = new createjs.Bitmap(chargeur.getResult('svg'));
+    forme['x'] = position['x'];
+    forme['y'] = position['y'];
+    scene.addChild(forme);
   }
   this.setPositionX = function(x)
   {

@@ -167,13 +167,16 @@ function valeurInitiale(evenement)
     if(!listeJoueur[i])
       listeJoueur[i] = new Joueur(i, window.configuration.courleurJoueur, positions, scene);
   }
+  setTimeout(retirerJoueurs, 100);
   //console.log(listeJoueur);
   //console.log(message['joueursPatie']);
+  document.body.addEventListener("click",tirer)
+}
+function retirerJoueurs(){
   for(id in listePartie)
   {
     listeJoueur[listePartie[id]].retirer();
   }
-  document.body.addEventListener("click",tirer)
 }
 function rafraichirJeu(evenement)
 {
