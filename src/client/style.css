@@ -13,6 +13,16 @@ form{
   padding: 5px;
   box-shadow: 5px 5px 5px black;
 }
+a{
+  background-color: #A8A8A8;
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  padding: 1px;
+}
+a:hover{
+  cursor: pointer;
+}
 #formModification{
   position:absolute;
   top:200px;
@@ -74,7 +84,6 @@ body{
   height: 100%;
   position: absolute;
 }
-
 #stage {
   z-index: -1;
   width: 100%;
@@ -83,7 +92,6 @@ body{
   top: 50%;
   overflow: hidden;
 }
-
 .rain {
   left: 0;
   top: 0;
