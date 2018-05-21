@@ -16,7 +16,12 @@ function InfoExterne()
 	}
   function afficher(texte){
     html = "";
-    html += "<h3>cible</h3>"
+    html += "<h3>cible :</h3>"
+    html += "<p>nom : "+texte.name+"</p>";
+    html += "<p>model : "+texte.manufacturer+"</p>";
+    html += "<p>equipage : "+texte.crew+"</p>";
+    html += "<p>passager : "+texte.passengers+"</p>";
+    html += "<p>classe : "+texte.starship_class+"</p>";
     espace.innerHTML = html;
     console.log(espace.innerHTML);
   }
