@@ -171,6 +171,7 @@ function valeurInitiale(evenement)
   //console.log(listeJoueur);
   //console.log(message['joueursPatie']);
   document.body.addEventListener("click",tirer)
+  donneExterne = new InfoExterne();
 }
 function retirerJoueurs(){
   for(id in listePartie)
