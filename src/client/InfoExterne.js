@@ -23,7 +23,7 @@ function InfoExterne()
     html += "<p>passager : "+texte.passengers+"</p>";
     html += "<p>classe : "+texte.starship_class+"</p>";
     espace.innerHTML = html;
-    console.log(espace.innerHTML);
+    //console.log(espace.innerHTML);
   }
 	initialiser();
 }
